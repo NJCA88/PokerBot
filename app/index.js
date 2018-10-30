@@ -10,7 +10,7 @@ import 'styles/index.scss';
 // ================================
 
 // const Human = require("./human.js");
-import Human from './human';
+import Player from './human';
 
 document.addEventListener("DOMContentLoaded", function(){
   const canvasEl = document.getElementById("myCanvas");
@@ -21,13 +21,14 @@ document.addEventListener("DOMContentLoaded", function(){
   ctx.fillStyle = "green";
   ctx.fillRect(0, 0, 800, 500);
 
-  // ctx.beginPath();
-  // ctx.arc(100, 100, 20, 0, 2*Math.PI, true);
-  // ctx.strokeStyle = "green";
-  // ctx.lineWidth = 5;
-  // ctx.stroke();
-  // ctx.fillStyle = "blue";
-  // ctx.fill();
 
-  new Human;
+
+  const person = new Player({pos: [300, 450], stack: 1000,  name: "Human"});
+  const comp = new Player({ pos: [300, 50], stack: 1000,  name: "Computer" });
+  person.draw(ctx)
+  comp.draw(ctx)
+  
 });
+
+
+
