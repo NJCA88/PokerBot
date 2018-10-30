@@ -14,6 +14,7 @@
     "url": "https://cvgellhorn@github.com/cvgellhorn/webpack-boilerplate.git"
   },
   "dependencies": {
+    "deck-of-cards": "^0.1.8",
     "lodash": "4.17.11"
   },
   "devDependencies": {
