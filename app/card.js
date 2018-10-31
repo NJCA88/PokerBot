@@ -17,6 +17,8 @@ class Card {
     constructor(options){
         this.suit = options.suit
         this.rank = options.rank
+        this.pos = options.pos
+        this.exposed = options.exposed ? options.exposed : true
     }
 
 
@@ -25,7 +27,7 @@ class Card {
         const card_loc = [CARD_CENTER[0] + CARD_SIZE[0] * RANKS.indexOf(this.rank),
             CARD_CENTER[1] + CARD_SIZE[1] * SUITS.indexOf(this.suit)]
 
-        ctx.drawImage(card_images, card_loc[0], card_loc[1], CARD_SIZE[0], CARD_SIZE[1], 100, 100, CARD_SIZE[0], CARD_SIZE[1])
+        ctx.drawImage(card_images, card_loc[0], card_loc[1], CARD_SIZE[0], CARD_SIZE[1], this.pos[0], this.pos[1], CARD_SIZE[0], CARD_SIZE[1])
      }
 
 }

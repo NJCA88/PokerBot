@@ -1,5 +1,5 @@
-const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
-const SUITS = ['a', 's', 'h', 'c'];
+const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
+const SUITS = ['c', 's', 'h', 'd'];
 
 import Card from './card';
 
@@ -13,6 +13,13 @@ class Deck{
             }
         }
         console.log(this.cards)
+        this.deal = this.deal.bind(this)
+    }
+
+    deal(player){
+        this.cards.shift
+        return this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+
     }
 }
 
