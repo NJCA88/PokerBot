@@ -2,6 +2,7 @@ const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
 const SUITS = ['c', 's', 'h', 'd'];
 
 import Card from './card';
+import Player from './player';
 
 class Deck{
     constructor(){
@@ -18,8 +19,10 @@ class Deck{
 
     deal(player){
         this.cards.shift
-        return this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-
+        const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+        console.log("player to receive card is currently:", player)
+        player.receiveCard(card)
+        return card
     }
 }
 

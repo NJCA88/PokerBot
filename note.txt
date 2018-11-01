@@ -1,0 +1,65 @@
+map of how to game will work:
+
+game class should run the entire thing.
+    sets up the players and starting stacks 
+    chooses whether or not to run a hand
+
+    runHand runs and entire hand {
+        # this should do a lot of delegating to helper methods
+        
+        setUp
+            sets up the starting state
+            sets up blinds as current bets
+            sets both player's status to live
+
+        runPreFlop
+            # runs all preflop action
+
+        runPostStreet
+            pass in street = flop
+
+            deals flop
+
+            asks first player for betchoice
+                if sbPlayer.betOption() === "check" {
+                    bbPlayer.betOption()
+                }
+            function Player.prototype.betOption(street){
+                if (choice === "bet")
+                    otherPlayer.facingBet(betsize)
+                if (choice === "check) return "check"
+            }
+            function Player.prototype.faceBet(betsize, street) {
+                if (choice === "fold")
+                    player.status = "folded"
+
+                if (choice === "call")
+                    player.stack -= (betSize - currentBet)
+                    pot += (betSize - currentBet)
+
+                if (choice === "raise")
+                    pot += raiseSize - betSize
+                    currentBet = raiseSize
+                    otherPlayer.facingBet(raiseSize)
+            }
+
+            checks to see if either player has folded
+            finishes resets currentBet of both players to 0
+            
+
+
+        runPostStreet
+            pass in street = turn
+
+        runPostStreet
+            pass in street = river
+            
+        endHand
+            complete all hand mechanics
+    }
+        
+
+
+current questions for TA:
+    how to make buttons that do stuff?
+    how to constantly update rendering on the page?
