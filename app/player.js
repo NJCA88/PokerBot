@@ -33,20 +33,28 @@ class Player {
     return 10;
   }
 
-  facingBet(bet, opponent){
+  async facingBet(bet, opponent){
     console.log('current player facing a bet is is ', this.name, ' opponent is', opponent.name)
+    if (this.name === "Human") this.createFacingBetButtons();
+
     this.actionChoice = 'invalid'
     this.betSize = 0
 
 
-    while (this.actionChoice === 'invalid' ) {
-      // temp solutions for sake of testing
-      if (this.name === "Computer" ) this.actionChoice = 'call'
-      if(this.name === 'Human') this.actionChoice = "fold"
+    if (this.name === "Computer") {
+      this.actionChoice = 'call'
+    } else {
+      await this.actionChoicePromise
     }
 
+    // while (this.actionChoice === 'invalid' ) {
+    //   // temp solutions for sake of testing
+    //   if (this.name === "Computer" ) this.actionChoice = 'call'
+    //   if(this.name === 'Human') this.actionChoice = "fold"
+    // }
+
     const actionChoice = this.actionChoice
-    let betSize = this.betSize
+    let betSize = parseInt(this.betSize)
     this.actionChoice = 'invalid'
     this.betSize = 0
 
@@ -69,7 +77,6 @@ class Player {
 
   async betOption(opponent){
     console.log('current player with bet option is  ', this.name, ' opponent is', opponent.name)
-    if (this.name === 'Human') this.createBetOptionButtons()
     this.actionChoice = 'invalid'
     this.betSize = 0
 
@@ -124,12 +131,55 @@ class Player {
         this.actionChoice = "bet"
         this.betSize = inputValue.value
       })
-
     }
        ) 
+  }
+
+  createFacingBetButtons() {
+    console.log('createFacingBetButtons now')
+
+    const buttonContainer = document.querySelector('.button-container')
+    const call = document.createElement("button")
+    const input = document.createElement('input')
+    const raise = document.createElement('button')
+    const fold = document.createElement('button')
+    fold.innerText = "fold"
+    raise.innerText = "raise"
+    call.innerText = "call"
+
+    buttonContainer.appendChild(input)
+    buttonContainer.appendChild(raise)
+    buttonContainer.appendChild(call)
+    buttonContainer.appendChild(fold)
 
 
 
+    this.actionChoicePromise = new Promise(res => {
+
+      raise.addEventListener('click', () => {
+        res()
+
+        const inputValue = document.querySelector('input')
+        console.log("raiseting", inputValue.value)
+        this.actionChoice = "raise"
+        this.betSize = inputValue.value
+      })
+
+        fold.addEventListener('click', () => {
+          res()
+          console.log("folding")
+          this.actionChoice = "fold"
+      })
+
+
+      call.addEventListener('click', () => {
+        res()
+        console.log("call")
+        this.actionChoice = "call"
+        this.betSize = inputValue.value
+      })
+    }
+    )
   }
 
 

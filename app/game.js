@@ -33,8 +33,8 @@ class Game {
     }
 
     runPreflop(bbPlayer, sbPlayer) {
-        if (bbPlayer.facingBet(5, sbPlayer, "pre") === "call") {
-            sbPlayer.betOption(bbPlayer);
+        if (sbPlayer.facingBet(5, bbPlayer, "pre") === "call") {
+            bbPlayer.betOption(bbPlayer);
         }
     }
 
