@@ -54,6 +54,7 @@ class Player {
     switch(actionChoice){
       case "call":
         console.log(this.name, ' called!!')
+        this.game.takeBet(bet);
         return "call" 
       case "fold":
         console.log('current player is ', this.name, ' opponent is', opponent.name)
@@ -84,7 +85,7 @@ class Player {
     // }
 
     const actionChoice = this.actionChoice
-    let betSize = this.betSize
+    let betSize = parseInt(this.betSize)
 
     this.actionChoice = 'invalid'
     this.betSize = 0
