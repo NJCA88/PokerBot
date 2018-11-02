@@ -6,6 +6,7 @@
   "license": "MIT",
   "homepage": "https://github.com/cvgellhorn/webpack-boilerplate",
   "scripts": {
+    "start": "webpack --watch --config webpack.config.js",
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js",
     "build": "webpack -p --progress --mode production --config webpack.config.build.js"
   },

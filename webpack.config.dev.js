@@ -3,7 +3,8 @@ const webpackConfig = require('./webpack.config');
 
 module.exports = merge(webpackConfig, {
 
-    devtool: 'eval',
+    devtool: 'eval-source-map',
+    mode: 'development',
 
     output: {
         pathinfo: true,

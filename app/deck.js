@@ -20,7 +20,7 @@ class Deck{
     deal(player){
         this.cards.shift
         const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-        console.log("player to receive card is currently:", player)
+        // console.log("player to receive card is currently:", player)
         player.receiveCard(card)
         return card
     }

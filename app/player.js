@@ -36,6 +36,8 @@ class Player {
 
   async facingBet(bet, opponent){
     console.log('current player facing a bet is is ', this.name, ' opponent is', opponent.name)
+    this.clearAllButtons();
+
     if (this.name === "Human") this.createFacingBetButtons();
 
     this.actionChoice = 'invalid'
@@ -44,8 +46,10 @@ class Player {
 
     if (this.name === "Computer") {
       this.actionChoice = 'call'
-    } else {
+    }  else {
+      // console.log(this.actionChoicePromise)
       await this.actionChoicePromise
+      // console.log(this.actionChoicePromise)
     }
 
     const actionChoice = this.actionChoice
@@ -74,8 +78,10 @@ class Player {
     }
   }
 
-  async betOption(opponent){
-    console.log('current player with bet option is  ', this.name, ' opponent is', opponent.name)
+  async betOption(opponent, street){
+    // debugger
+    // console.log("promise = ", this.actionChoicePromise, 'and name is: ', this.name)
+    console.log('current player with bet option is  ', this.name, ' opponent is', opponent.name, ' street: ', street)
     this.clearAllButtons();
 
     if (this.name === "Human") this.createBetOptionButtons();
@@ -84,10 +90,12 @@ class Player {
     this.betSize = 0
 
       if (this.name === "Computer"){
-        console.log("computer made his flop choice to check")
         this.actionChoice = 'check'
-      }else{
+      } else {
+        // console.log(this.actionChoicePromise)
         await this.actionChoicePromise
+        // console.log(this.actionChoicePromise)
+
       }
 
     const actionChoice = this.actionChoice
@@ -95,7 +103,7 @@ class Player {
 
     this.actionChoice = 'invalid'
     this.betSize = 0
-    console.log(this.name, "action choice is: ", actionChoice)
+    console.log(this.name, "action choice is: ", actionChoice, "on street: ", street)
 
     switch (actionChoice) {
       case "check":
@@ -104,7 +112,8 @@ class Player {
       case 'bet':
         console.log(this.name, " bet", betSize);
         this.game.takeBet(50)
-        return opponent.facingBet(betSize, this)
+         opponent.facingBet(betSize, this)
+         return 'bet';
       case 'fold':
       console.log('folding')
       return 'fold'
@@ -113,6 +122,7 @@ class Player {
 
   createBetOptionButtons(){
     // console.log('creating buttons here')
+    // debugger
 
     const buttonContainer = document.querySelector('.button-container')
     // const callButton = document.createElement("button")
@@ -149,7 +159,6 @@ class Player {
         })
         
       check.addEventListener('click', () => {
-        console.log("did I check?  TEST")
           res()
           console.log("checking")
           this.actionChoice = "check"
@@ -206,7 +215,6 @@ class Player {
 
   clearAllButtons(){
     const buttonContainer = document.querySelector(".button-container");
-    console.log('buttonContainer is: ', buttonContainer)
     while (buttonContainer.firstChild) {
       buttonContainer.removeChild(buttonContainer.firstChild);
     }

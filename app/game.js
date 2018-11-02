@@ -25,40 +25,53 @@ class Game {
         this.runHand(this.computer, this.human);
     }
 
-    runHand(bbPlayer, sbPlayer) {
+    async runHand(bbPlayer, sbPlayer) {
         // this.render()
-        console.log("Running game now");
-        this.setUp(bbPlayer, sbPlayer);
-        this.runPreflop(bbPlayer, sbPlayer).then( () =>
-        this.runFlop(bbPlayer, sbPlayer))
+        // console.log("Running game now");
+        // this.setUp(bbPlayer, sbPlayer);
+        // this.runPreflop(bbPlayer, sbPlayer).then( () =>
+        // this.runFlop(bbPlayer, sbPlayer))
         // .then( ()=> 
         // this.runTurn(bbPlayer, sbPlayer))
         // .then( ()=> 
         // this.runRiver(bbPlayer, sbPlayer))
+
+
+        this.setUp(bbPlayer, sbPlayer);
+        this.render()
+        await this.runPreflop(bbPlayer, sbPlayer);
+        await this.runFlop(bbPlayer, sbPlayer)
+        await this.runTurn(bbPlayer, sbPlayer)
+        // await this.runRiver(bbPlayer, sbPlayer)
     }
 
     // this works and is clean syntax
     async runPreflop(bbPlayer, sbPlayer){
         const isCall = await sbPlayer.facingBet(5, bbPlayer)
+        // const isCall = await sbPlayer.betOption( bbPlayer)
         if (isCall === "call") bbPlayer.betOption(sbPlayer);
+        // if (isCall === "check") bbPlayer.betOption(sbPlayer);
     }
 
     async runFlop(bbPlayer, sbPlayer) {
         console.log("starting the flop now, we don't need to cards!")
-        const isCheck = await bbPlayer.betOption( sbPlayer )
-        if (isCheck === "check") sbPlayer.betOption( bbPlayer );
+        const isCheck = await bbPlayer.betOption( sbPlayer, 'flop' )
+        if (isCheck === "check"){
+
+         await sbPlayer.betOption( bbPlayer, 'flop' );
+        }
     }
 
     async runTurn(bbPlayer, sbPlayer) {
         console.log("starting the turn now, we don't need to cards !")
-        const isCheck = await bbPlayer.betOption(sbPlayer)
-        if (isCheck === "check") sbPlayer.betOption(bbPlayer);
+        const isCheck = await bbPlayer.betOption(sbPlayer, 'turn')
+        if (isCheck === "check") sbPlayer.betOption(bbPlayer, 'turn');
     }
 
     async runRiver(bbPlayer, sbPlayer) {
         console.log("starting the right now, we don't need to cards!")
-        const isCheck = await bbPlayer.betOption(sbPlayer)
-        if (isCheck === "check") sbPlayer.betOption(bbPlayer);
+        const isCheck = await bbPlayer.betOption(sbPlayer, 'river')
+        if (isCheck === "check") sbPlayer.betOption(bbPlayer, 'river');
     }
     // for post streets
     // if Player.betOption(player).then( isCheck =>{
@@ -91,8 +104,23 @@ class Game {
         this.pot += 15;
         bbPlayer.status = "live";
         sbPlayer.status = "live";
-        console.log("this.card1 is ", this.card1);
+        // console.log("this.card1 is ", this.card1);
         this.render();
+    }
+
+    dealFlop(){
+        const cardPos5 = [50, 200];
+        const cardPos6 = [100, 200];
+        const cardPos7 = [150, 200];
+
+        this.card5 = this.deck.deal(this.human, this.computer);
+        this.card5 = this.deck.deal(this.human, this.computer);
+        this.card5 = this.deck.deal(this.human, this.computer);
+
+        this.card5.pos = cardPos5;
+        this.card6.pos = cardPos6;
+        this.card7.pos = cardPos7;
+
     }
 
     takeBet(betSize) {
