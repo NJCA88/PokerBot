@@ -29,15 +29,37 @@ class Game {
         // this.render()
         console.log("Running game now");
         this.setUp(bbPlayer, sbPlayer);
-        this.runPreflop(bbPlayer, sbPlayer);
+        this.runPreflop(bbPlayer, sbPlayer).then( () =>
+        this.runFlop(bbPlayer, sbPlayer))
+        // .then( ()=> 
+        // this.runTurn(bbPlayer, sbPlayer))
+        // .then( ()=> 
+        // this.runRiver(bbPlayer, sbPlayer))
     }
 
-    runPreflop(bbPlayer, sbPlayer) {
-        if (sbPlayer.facingBet(5, bbPlayer, "pre") === "call") {
-            bbPlayer.betOption(bbPlayer);
-        }
+    // this works and is clean syntax
+    async runPreflop(bbPlayer, sbPlayer){
+        const isCall = await sbPlayer.facingBet(5, bbPlayer)
+        if (isCall === "call") bbPlayer.betOption(sbPlayer);
     }
 
+    async runFlop(bbPlayer, sbPlayer) {
+        console.log("starting the flop now, we don't need to cards!")
+        const isCheck = await bbPlayer.betOption( sbPlayer )
+        if (isCheck === "check") sbPlayer.betOption( bbPlayer );
+    }
+
+    async runTurn(bbPlayer, sbPlayer) {
+        console.log("starting the turn now, we don't need to cards !")
+        const isCheck = await bbPlayer.betOption(sbPlayer)
+        if (isCheck === "check") sbPlayer.betOption(bbPlayer);
+    }
+
+    async runRiver(bbPlayer, sbPlayer) {
+        console.log("starting the right now, we don't need to cards!")
+        const isCheck = await bbPlayer.betOption(sbPlayer)
+        if (isCheck === "check") sbPlayer.betOption(bbPlayer);
+    }
     // for post streets
     // if Player.betOption(player).then( isCheck =>{
     //     if isCheck === "check" do stuff

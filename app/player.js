@@ -10,6 +10,7 @@ class Player {
     this.game = options.game
     this.status = 'live'
     // this.receieveCard = this.receiveCard.bind(this)
+    this.facingBet = this.facingBet.bind(this)
   }
 
   receiveCard(card){
@@ -47,12 +48,6 @@ class Player {
       await this.actionChoicePromise
     }
 
-    // while (this.actionChoice === 'invalid' ) {
-    //   // temp solutions for sake of testing
-    //   if (this.name === "Computer" ) this.actionChoice = 'call'
-    //   if(this.name === 'Human') this.actionChoice = "fold"
-    // }
-
     const actionChoice = this.actionChoice
     let betSize = parseInt(this.betSize)
     this.actionChoice = 'invalid'
@@ -64,38 +59,43 @@ class Player {
         console.log(this.name, ' called!!')
         this.game.takeBet(bet);
         return "call" 
+        break
       case "fold":
         console.log('current player is ', this.name, ' opponent is', opponent.name)
         console.log(this.name, " folded");
         return "fold"
+        break
       case 'raise':
         console.log(this.name, " raised");
         this.game.takeBet(betSize)
-        return opponent.facingBet(betSize, this)
+         opponent.facingBet(betSize, this)
+        return "raise"
+        break
     }
   }
 
   async betOption(opponent){
     console.log('current player with bet option is  ', this.name, ' opponent is', opponent.name)
+    this.clearAllButtons();
+
+    if (this.name === "Human") this.createBetOptionButtons();
+
     this.actionChoice = 'invalid'
     this.betSize = 0
 
       if (this.name === "Computer"){
+        console.log("computer made his flop choice to check")
         this.actionChoice = 'check'
       }else{
         await this.actionChoicePromise
       }
-    
-    // while (this.actionChoice === 'invalid') {
-    //   // temp solutions for sake of testing
-    //   if (this.name === 'Human') this.actionChoice = "bet"
-    // }
 
     const actionChoice = this.actionChoice
     let betSize = parseInt(this.betSize)
 
     this.actionChoice = 'invalid'
     this.betSize = 0
+    console.log(this.name, "action choice is: ", actionChoice)
 
     switch (actionChoice) {
       case "check":
@@ -105,23 +105,32 @@ class Player {
         console.log(this.name, " bet", betSize);
         this.game.takeBet(50)
         return opponent.facingBet(betSize, this)
+      case 'fold':
+      console.log('folding')
+      return 'fold'
     }
   }
 
   createBetOptionButtons(){
-    console.log('creating buttons here')
+    // console.log('creating buttons here')
 
     const buttonContainer = document.querySelector('.button-container')
-    const callButton = document.createElement("button")
+    // const callButton = document.createElement("button")
     const input = document.createElement('input')
     const bet = document.createElement('button')
+    const check = document.createElement('button')
+    const fold = document.createElement('button')
+    
     bet.innerText = "Bet"
+    check.innerText = 'Check'
+    fold.innerText = 'Fold'
 
     buttonContainer.appendChild(input)
     buttonContainer.appendChild(bet)
+    buttonContainer.appendChild(check)
+    buttonContainer.appendChild(fold)
 
-
-    this.actionChoicePromise = new Promise(res => {
+    this.actionChoicePromise = new Promise( res => {
 
       bet.addEventListener('click', () => {
         res()
@@ -130,13 +139,27 @@ class Player {
         console.log("Betting", inputValue.value)
         this.actionChoice = "bet"
         this.betSize = inputValue.value
+
       })
+
+      fold.addEventListener('click', () => {
+          res()
+          console.log("folding")
+          this.actionChoice = "fold"
+        })
+        
+      check.addEventListener('click', () => {
+        console.log("did I check?  TEST")
+          res()
+          console.log("checking")
+          this.actionChoice = "check"
+        })
     }
        ) 
   }
 
   createFacingBetButtons() {
-    console.log('createFacingBetButtons now')
+    // console.log('createFacingBetButtons now')
 
     const buttonContainer = document.querySelector('.button-container')
     const call = document.createElement("button")
@@ -176,10 +199,17 @@ class Player {
         res()
         console.log("call")
         this.actionChoice = "call"
-        this.betSize = inputValue.value
       })
     }
     )
+  }
+
+  clearAllButtons(){
+    const buttonContainer = document.querySelector(".button-container");
+    console.log('buttonContainer is: ', buttonContainer)
+    while (buttonContainer.firstChild) {
+      buttonContainer.removeChild(buttonContainer.firstChild);
+    }
   }
 
 
