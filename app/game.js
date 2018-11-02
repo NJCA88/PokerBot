@@ -1,3 +1,5 @@
+const VALUES = {"A": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7":7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13, "A": 14 };
+
 
 import Player from "./player";
 import Card from "./card";
@@ -34,6 +36,8 @@ class Game {
         await this.runTurn(bbPlayer, sbPlayer)
         await this.runRiver(bbPlayer, sbPlayer)
         console.log('HAND IS OVER')
+        console.log(sbPlayer, bbPlayer)
+        this.getHandStrength(sbPlayer.hand)
     }
 
     // this works and is clean syntax
@@ -134,6 +138,7 @@ class Game {
         this.card8 = this.deck.deal(this.human, this.computer);
         this.card8.pos = cardPos8;
         this.card8.draw(this.ctx)
+        this.render()
     }
 
     dealRiver() {
@@ -147,6 +152,29 @@ class Game {
         console.log("this.pot, this.betSize is", this.pot, betSize)
         this.pot += betSize;
         console.log("pot is now", this.pot);
+    }
+
+    getHandStrength(hand){
+        const pairsHash = {};
+        const suitsHash = {}
+        const ranks = []
+        const values = []
+        for(var card_idx = 0; card_idx < hand.length; card_idx++ ) {
+            pairsHash[hand[card_idx].rank] = pairsHash[hand[card_idx].rank] + 1 || 1;
+            suitsHash[hand[card_idx].suit] = suitsHash[hand[card_idx].suit] + 1 || 1;
+            ranks.push(hand[card_idx].rank)
+            values.push(VALUES[hand[card_idx].rank] )
+
+        }
+
+        console.log('pairsHash is: ', pairsHash)
+
+        console.log('suitsHash.values is: ', Object.values(suitsHash))
+        console.log("ranks array is: ", ranks)
+        // console.log("sorted values is: ", ]))
+
+
+
     }
 
     render() {

@@ -61,6 +61,8 @@ class Player {
     switch(actionChoice){
       case "call":
         console.log(this.name, ' called!!')
+        this.stack -= bet - this.currentBet
+        this.currentBet = bet
         this.game.takeBet(bet);
         return "call" 
         break
@@ -71,6 +73,8 @@ class Player {
         break
       case 'raise':
         console.log(this.name, " raised");
+        this.stack -= betSize - this.currentBet
+        this.currentBet = betSize
         this.game.takeBet(betSize)
          opponent.facingBet(betSize, this)
         return "raise"
@@ -111,6 +115,8 @@ class Player {
         return "check"
       case 'bet':
         console.log(this.name, " bet", betSize);
+        this.stack -= betSize - this.currentBet
+        this.currentBet = betSize
         this.game.takeBet(50)
          opponent.facingBet(betSize, this)
          return 'bet';
