@@ -17,11 +17,12 @@ class Deck{
         this.deal = this.deal.bind(this)
     }
 
-    deal(player){
+    deal(player, player2){
         this.cards.shift
         const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
         // console.log("player to receive card is currently:", player)
         player.receiveCard(card)
+        if (player2) player2.receiveCard(card)
         return card
     }
 }

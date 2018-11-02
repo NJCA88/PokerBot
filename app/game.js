@@ -26,23 +26,14 @@ class Game {
     }
 
     async runHand(bbPlayer, sbPlayer) {
-        // this.render()
-        // console.log("Running game now");
-        // this.setUp(bbPlayer, sbPlayer);
-        // this.runPreflop(bbPlayer, sbPlayer).then( () =>
-        // this.runFlop(bbPlayer, sbPlayer))
-        // .then( ()=> 
-        // this.runTurn(bbPlayer, sbPlayer))
-        // .then( ()=> 
-        // this.runRiver(bbPlayer, sbPlayer))
-
 
         this.setUp(bbPlayer, sbPlayer);
         this.render()
         await this.runPreflop(bbPlayer, sbPlayer);
         await this.runFlop(bbPlayer, sbPlayer)
         await this.runTurn(bbPlayer, sbPlayer)
-        // await this.runRiver(bbPlayer, sbPlayer)
+        await this.runRiver(bbPlayer, sbPlayer)
+        console.log('HAND IS OVER')
     }
 
     // this works and is clean syntax
@@ -54,6 +45,7 @@ class Game {
     }
 
     async runFlop(bbPlayer, sbPlayer) {
+        this.dealFlop()
         console.log("starting the flop now, we don't need to cards!")
         const isCheck = await bbPlayer.betOption( sbPlayer, 'flop' )
         if (isCheck === "check"){
@@ -63,15 +55,26 @@ class Game {
     }
 
     async runTurn(bbPlayer, sbPlayer) {
+        this.dealTurn()
         console.log("starting the turn now, we don't need to cards !")
+        console.log('sb player: ', sbPlayer, 'bbPlayer', bbPlayer)
         const isCheck = await bbPlayer.betOption(sbPlayer, 'turn')
-        if (isCheck === "check") sbPlayer.betOption(bbPlayer, 'turn');
+        if (isCheck === "check") {
+
+            await sbPlayer.betOption(bbPlayer, 'turn');
+        }
     }
 
     async runRiver(bbPlayer, sbPlayer) {
+        this.dealRiver()
         console.log("starting the right now, we don't need to cards!")
+        console.log("sb player: ", sbPlayer);
+
         const isCheck = await bbPlayer.betOption(sbPlayer, 'river')
-        if (isCheck === "check") sbPlayer.betOption(bbPlayer, 'river');
+        if (isCheck === "check") {
+
+            await sbPlayer.betOption(bbPlayer, 'river');
+        }
     }
     // for post streets
     // if Player.betOption(player).then( isCheck =>{
@@ -110,17 +113,34 @@ class Game {
 
     dealFlop(){
         const cardPos5 = [50, 200];
-        const cardPos6 = [100, 200];
-        const cardPos7 = [150, 200];
+        const cardPos6 = [125, 200];
+        const cardPos7 = [200, 200];
 
         this.card5 = this.deck.deal(this.human, this.computer);
-        this.card5 = this.deck.deal(this.human, this.computer);
-        this.card5 = this.deck.deal(this.human, this.computer);
+        this.card6 = this.deck.deal(this.human, this.computer);
+        this.card7 = this.deck.deal(this.human, this.computer);
 
         this.card5.pos = cardPos5;
         this.card6.pos = cardPos6;
         this.card7.pos = cardPos7;
 
+        this.card5.draw(this.ctx)
+        this.card6.draw(this.ctx)
+        this.card7.draw(this.ctx)
+    }
+
+    dealTurn(){
+        const cardPos8 = [275, 200];
+        this.card8 = this.deck.deal(this.human, this.computer);
+        this.card8.pos = cardPos8;
+        this.card8.draw(this.ctx)
+    }
+
+    dealRiver() {
+        const cardPos9 = [350, 200];
+        this.card9 = this.deck.deal(this.human, this.computer);
+        this.card9.pos = cardPos9;
+        this.card9.draw(this.ctx)
     }
 
     takeBet(betSize) {
