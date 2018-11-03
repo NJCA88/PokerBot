@@ -7,6 +7,7 @@ class Player {
     this.stack = options.stack;
     this.currentBet= 0;
     this.hand = [];
+    this.handName ="invalid"
     this.game = options.game
     this.status = 'live'
     // this.receieveCard = this.receiveCard.bind(this)
@@ -62,13 +63,14 @@ class Player {
       case "call":
         console.log(this.name, ' called!!')
         this.stack -= bet - this.currentBet
+        this.game.takeBet(bet - this.currentBet);
         this.currentBet = bet
-        this.game.takeBet(bet);
         return "call" 
         break
       case "fold":
         console.log('current player is ', this.name, ' opponent is', opponent.name)
         console.log(this.name, " folded");
+        this.status = 'dead'
         return "fold"
         break
       case 'raise':
@@ -121,7 +123,8 @@ class Player {
          opponent.facingBet(betSize, this)
          return 'bet';
       case 'fold':
-      console.log('folding')
+        console.log('folding')
+        this.status = "dead";
       return 'fold'
     }
   }
@@ -232,6 +235,8 @@ class Player {
     ctx.fillStyle = "black";
     ctx.font = 20 + 'pt Arial';
     ctx.fillText(`${this.name}`, this.pos[0] + 50, this.pos[1]);
+    ctx.fillText(`${this.handName}`, this.pos[0] + 200, this.pos[1]);
+
 
     ctx.fillStyle = "black";
     ctx.font = 20 + 'pt Arial';
