@@ -51,7 +51,6 @@ class Game {
         this.sbPlayer = ""
         this.bbPlayer = ""
         this.status = 'live'
-        this.createGameManageButtons()
         this.runHand(this.computer, this.human);
     }
 
@@ -78,8 +77,8 @@ class Game {
             await this.bbPlayer.betOption(this.sbPlayer, "flop");
         }
         // if (this.checkStatus() === "dead") this.finishHand()
-        this.sbPlayer.handName = "invalid"
-        this.bbPlayer.handName = "invalid"
+        this.sbPlayer.handName = ""
+        this.bbPlayer.handName = ""
 
 
     }
@@ -249,7 +248,7 @@ class Game {
         }
 
         winner.stack += this.pot
-
+        this.createGameManageButtons()
         // this.clearPrevState();
         // this.runHand(this.bbPlayer, this.sbPlayer)
         // setTimeout(function () { this.runHand(this.bbPlayer, this.sbPlayer).bind(this); }, 2000);
@@ -350,8 +349,8 @@ class Game {
             }
         }
 
-        console.log("values are: (sb then bb): ", sbValues, bbValues)
-        console.log("after logic, sbHand is: ", sbHand, "bbHand is: ", bbHand)
+        // console.log("values are: (sb then bb): ", sbValues, bbValues)
+        // console.log("after logic, sbHand is: ", sbHand, "bbHand is: ", bbHand)
         for (let i = 0; i < 5; i++){
             if (sbHand[i] > bbHand[i]) return this.sbPlayer
             else if (sbHand[i] < bbHand[i]) return this.bbPlayer
@@ -387,9 +386,9 @@ class Game {
         if (Object.values(suitsHash).sort().reverse()[0] >= 5) return "flush"
       
         // somtimes makes straights out of 4 straights
-        // for (var start = 0; start < 3; start ++){
-        //     if (this.checkStraight(values.slice(start, start + 5)) === true ) return "straight"
-        // }
+        for (var start = 0; start < (values.length - 4); start ++){
+            if (this.checkStraight(values.slice(start, start + 5)) === true ) return "straight"
+        }
 
         if (Object.values(pairsHash).includes(3)) return "3 of a kind"
         if ( this.checkTwoPair(Object.values(pairsHash))) return "2 pair"
@@ -423,9 +422,11 @@ class Game {
 
         buttonContainer.appendChild(deal)
 
-    //     deal.addEventListener('click', ()=> {
-    //         confirm.log('dealing now"')
-    //     })
+        deal.addEventListener('click', ()=> {
+            console.log('dealing now"')
+            this.clearPrevState()
+            this.runHand(this.bbPlayer, this.sbPlayer)
+        })
     }
 
     render() {
@@ -446,6 +447,15 @@ class Game {
         this.computer.hand.forEach(card => {
             card.draw(this.ctx);
         });
+
+        this.ctx.fillStyle = "black";
+        this.ctx.font = 20 + 'pt Arial';
+        this.ctx.fillText(`${this.human.currentBet}`, 250, 400);
+
+        this.ctx.fillStyle = "black";
+        this.ctx.font = 20 + 'pt Arial';
+        this.ctx.fillText(`${this.computer.currentBet}`, 250, 100);
+
 
         window.requestAnimationFrame(this.render.bind(this));
     }

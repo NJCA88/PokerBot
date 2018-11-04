@@ -7,7 +7,7 @@ class Player {
     this.stack = options.stack;
     this.currentBet= 0;
     this.hand = [];
-    this.handName ="invalid"
+    this.handName =""
     this.game = options.game
     this.status = 'live'
     // this.receieveCard = this.receiveCard.bind(this)
@@ -253,6 +253,8 @@ class Player {
     ctx.fillStyle = "black";
     ctx.font = 20 + 'pt Arial';
     ctx.fillText(`${this.stack}`, this.pos[0] + 50, this.pos[1]+ 30);
+
+ 
 
     // requestAnimationFrame(this.draw)
   }
