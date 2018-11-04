@@ -74,10 +74,16 @@ class Player {
         return "fold"
         break
       case 'raise':
+        if (betSize > this.stack + this.currentBet) betSize = this.stack
+        if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack
+        if (betSize < (bet - this.currentBet) + bet ){
+          console.log('test is happening')
+         betSize = bet - this.currentBet + bet
+        }
         console.log(this.name, " raised");
         this.stack -= betSize - this.currentBet
+        this.game.takeBet(betSize - this.currentBet)
         this.currentBet = betSize
-        this.game.takeBet(betSize)
          opponent.facingBet(betSize, this)
         return "raise"
         break
@@ -116,10 +122,13 @@ class Player {
         console.log(this.name, ' checked!!')
         return "check"
       case 'bet':
+        if ( betSize > this.stack) betSize = this.stack
+        if ( betSize > opponent.stack) betSize = opponent.stack
+        if ( betSize < 10) betSize = 10
         console.log(this.name, " bet", betSize);
         this.stack -= betSize - this.currentBet
+        this.game.takeBet(betSize - this.currentBet)
         this.currentBet = betSize
-        this.game.takeBet(50)
          opponent.facingBet(betSize, this)
          return 'bet';
       case 'fold':
@@ -193,7 +202,10 @@ class Player {
     buttonContainer.appendChild(call)
     buttonContainer.appendChild(fold)
 
+    // const deal = document.createElement("button")
+    // deal.innerText = 'deal'
 
+    // buttonContainer.appendChild(deal)
 
     this.actionChoicePromise = new Promise(res => {
 

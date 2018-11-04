@@ -1,5 +1,5 @@
 const VALUES = {
-    A: 1,
+
     "2": 2,
     "3": 3,
     "4": 4,
@@ -51,6 +51,7 @@ class Game {
         this.sbPlayer = ""
         this.bbPlayer = ""
         this.status = 'live'
+        this.createGameManageButtons()
         this.runHand(this.computer, this.human);
     }
 
@@ -66,9 +67,7 @@ class Game {
         if (this.status === "live") await this.runTurn();
         if (this.status === 'live') await this.runRiver();
         console.log("HAND IS OVER");
-        console.log(sbPlayer, bbPlayer);
          this.finishHand(sbPlayer, bbPlayer);
-        this.getHandStrength(sbPlayer.hand)
     }
 
 
@@ -79,6 +78,9 @@ class Game {
             await this.bbPlayer.betOption(this.sbPlayer, "flop");
         }
         // if (this.checkStatus() === "dead") this.finishHand()
+        this.sbPlayer.handName = "invalid"
+        this.bbPlayer.handName = "invalid"
+
 
     }
 
@@ -125,12 +127,15 @@ class Game {
 
     }
 
-    clearPostState(){
+    clearPrevState(){
         this.bbPlayer.currentBet = 0
         this.sbPlayer.currentBet = 0
         this.bbPlayer.hand = []
         this.sbPlayer.hand = []
+ 
         this.pot = 0
+        this.deck = new Deck();
+
     }
 
 
@@ -227,20 +232,131 @@ class Game {
             console.log("winner is: ", winner.name)
         } else{
 
-        console.log('sb player cards are: ', sbPlayer.hand)
-        console.log(this.getHandStrength(sbPlayer.hand));
-        sbPlayer.handName = this.getHandStrength(sbPlayer.hand)
-        bbPlayer.handName = this.getHandStrength(bbPlayer.hand)
-        if (HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
-            winner = sbPlayer
-        }else
-        winner = bbPlayer
+            console.log('sb player cards are: ', sbPlayer.hand)
+            console.log(this.getHandStrength(sbPlayer.hand));
+            sbPlayer.handName = this.getHandStrength(sbPlayer.hand)
+            bbPlayer.handName = this.getHandStrength(bbPlayer.hand)
+            if (HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
+                winner = sbPlayer
+            } else if(HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
+                winner = sbPlayer 
+            } else {
+                console.log("we need to figure this shit out...")
+
+                console.log('we think the winner is: ', this.breakTie(sbPlayer.handName))
+                winner =  this.breakTie(sbPlayer.handName)
+            }
         }
 
         winner.stack += this.pot
 
-        this.clearPostState();
-        this.runHand(this.bbPlayer, this.sbPlayer)
+        // this.clearPrevState();
+        // this.runHand(this.bbPlayer, this.sbPlayer)
+        // setTimeout(function () { this.runHand(this.bbPlayer, this.sbPlayer).bind(this); }, 2000);
+
+    }
+
+    breakTie(handName){
+        console.log('breaking the tie...')
+        let sbValues = []
+        let bbValues = []
+        let sbPairsHash = {};
+        let bbPairsHash = {};
+
+        for (var card_idx = 0; card_idx < 7; card_idx++) {
+            sbValues.push( (VALUES[this.sbPlayer.hand[card_idx].rank])  ) 
+            bbValues.push((VALUES[this.bbPlayer.hand[card_idx].rank])) 
+            sbPairsHash[VALUES[this.sbPlayer.hand[card_idx].rank]] =
+                sbPairsHash[VALUES[this.sbPlayer.hand[card_idx].rank]] + 1 || 1;
+            bbPairsHash[VALUES[this.bbPlayer.hand[card_idx].rank]] =
+                bbPairsHash[VALUES[this.bbPlayer.hand[card_idx].rank]] + 1 || 1;
+        }
+        sbValues.sort((a, b) => a - b).reverse()
+        bbValues.sort((a, b) => a - b).reverse()
+        
+        let sbHand = []
+        let bbHand = []
+
+
+        if ( handName === "high card"){
+             sbHand = sbValues.slice(0, 5)
+             bbHand = bbValues.slice(0,5)
+        }
+        if (handName === "pair") {
+            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2) )
+            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2) )
+            // sbHand.push(sbPairsHash[2])
+
+            let i = 0
+            while (sbHand.length < 5 ) {
+                if (sbValues[i] !== sbPairsHash[2]) sbHand.push(sbValues[i])
+                i++
+            }
+
+            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2))
+            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2))
+            i = 0
+            while (bbHand.length < 5) {
+                if (bbValues[i] !== bbPairsHash[2]) bbHand.push(bbValues[i])
+                i++
+            }
+
+        }
+        if ( handName ==="2 pair"){
+            for (let i = 0; i < 7; i++){
+                // debugger
+                if ( sbPairsHash[sbValues[i]] === 2 && !sbHand.includes(sbValues[i])) {                    sbHand.push(sbValues[i])
+                    sbHand.push(sbValues[i])
+                }
+            }
+            let i = 0
+            while (sbHand.length < 5){
+                if (!sbHand.includes(sbValues[i])) sbHand.push(sbValues[i])
+                i++
+            }
+
+
+            for (let i = 0; i < 7; i++) {
+                if (bbPairsHash[bbValues[i]] === 2 && !bbHand.includes(bbValues[i])) {                    bbHand.push(bbValues[i])
+                    bbHand.push(bbValues[i])
+
+                }
+            }
+             i = 0
+            while (bbHand.length < 5) {
+                if (!bbHand.includes(sbValues[i])) bbHand.push(sbValues[i])
+                i++
+            }
+
+        }
+
+        if (handName = "3 of a kind"){
+            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 3))
+            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 3))
+            // sbHand.push(sbPairsHash[2])
+
+            let i = 0
+            while (sbHand.length < 5) {
+                if (sbValues[i] !== sbPairsHash[2]) sbHand.push(sbValues[i])
+                i++
+            }
+
+            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 3))
+            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 3))
+            i = 0
+            while (bbHand.length < 5) {
+                if (bbValues[i] !== bbPairsHash[2]) bbHand.push(bbValues[i])
+                i++
+            }
+        }
+
+        console.log("values are: (sb then bb): ", sbValues, bbValues)
+        console.log("after logic, sbHand is: ", sbHand, "bbHand is: ", bbHand)
+        for (let i = 0; i < 5; i++){
+            if (sbHand[i] > bbHand[i]) return this.sbPlayer
+            else if (sbHand[i] < bbHand[i]) return this.bbPlayer
+        }
+        return "tie"
     }
 
     resetCurrentBets(player1, player2) {
@@ -270,10 +386,10 @@ class Game {
         if (Object.values(suitsHash).sort((a, b)=> a - b)[Object.values(suitsHash).length] >= 5  ) return "flush"
         if (Object.values(suitsHash).sort().reverse()[0] >= 5) return "flush"
       
-        // debugger
-        for (var start = 0; start < 3; start ++){
-            if (this.checkStraight(values.slice(start, start + 5)) === true ) return "straight"
-        }
+        // somtimes makes straights out of 4 straights
+        // for (var start = 0; start < 3; start ++){
+        //     if (this.checkStraight(values.slice(start, start + 5)) === true ) return "straight"
+        // }
 
         if (Object.values(pairsHash).includes(3)) return "3 of a kind"
         if ( this.checkTwoPair(Object.values(pairsHash))) return "2 pair"
@@ -297,6 +413,19 @@ class Game {
             }
         }
         return false
+    }
+
+    createGameManageButtons(){
+        console.log('creating buttons')
+        const buttonContainer = document.querySelector('.button-container')
+        const deal = document.createElement("button")
+        deal.innerText = 'deal'
+
+        buttonContainer.appendChild(deal)
+
+    //     deal.addEventListener('click', ()=> {
+    //         confirm.log('dealing now"')
+    //     })
     }
 
     render() {

@@ -13,14 +13,45 @@ class Deck{
                 this.cards.push( new Card({suit: SUITS[suit_idx], rank: RANKS[rank_idx]}) )
             }
         }
-        console.log(this.cards)
+
+        this.testCards = [
+            //first 2 to SB, next 2 to BB 
+            new Card({ suit: 'c', rank: '4' }),
+            new Card({ suit: 'h', rank: '2' }),
+
+            new Card({ suit: 'c', rank: 'A' }),
+            new Card({ suit: 'h', rank: '4' }),
+            //flop
+            new Card({ suit: 'c', rank: 'A' }),
+            new Card({ suit: 's', rank: '2' }),
+            new Card({ suit: 'c', rank: '3' }),
+            //turn
+            new Card({ suit: 'd', rank: '4' }),
+            // river 
+            new Card({ suit: 'd', rank: '6' }),
+      
+        ]
+        console.log(this.testCards)
         this.deal = this.deal.bind(this)
     }
 
-    deal(player, player2){
-        this.cards.shift
-        const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-        // console.log("player to receive card is currently:", player)
+    // deal(player, player2){
+    //     // this.cards.shift
+    //     const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+    //     // console.log("player to receive card is currently:", player)
+    //     player.receiveCard(card)
+    //     if (player2) player2.receiveCard(card)
+    //     return card
+    // }
+
+    // adding a second deal method to handle testing.
+    // when using this test method, just comment out 
+    //first deal, and adjust the 9 cards as needed.
+
+    deal(player, player2) {
+
+        const card = this.testCards.shift()
+        console.log("player to receive card ", card)
         player.receiveCard(card)
         if (player2) player2.receiveCard(card)
         return card
