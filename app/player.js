@@ -74,6 +74,7 @@ class Player {
         return "fold"
         break
       case 'raise':
+        if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack
         if (betSize < (bet - this.currentBet) + bet ){
@@ -122,6 +123,7 @@ class Player {
         console.log(this.name, ' checked!!')
         return "check"
       case 'bet':
+        if (isNaN(betSize)) betSize = 10
         if ( betSize > this.stack) betSize = this.stack
         if ( betSize > opponent.stack) betSize = opponent.stack
         if ( betSize < 10) betSize = 10

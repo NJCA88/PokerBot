@@ -55,6 +55,7 @@ class Game {
     }
 
     async runHand(bbPlayer, sbPlayer) {
+
         if (this.human.stack <= 0) {
             window.alert("You already lost!  Click start over to try again!") 
         }
@@ -67,9 +68,12 @@ class Game {
         this.render();
         this.sbPlayer = sbPlayer
         this.bbPlayer = bbPlayer
+        this.sbPlayer.status = 'live'
+        this.bbPlayer.status = 'live'
 
         this.setUp(bbPlayer, sbPlayer);
         await this.runPreflop();
+        this.checkStatus()
         if (this.status === 'live') await this.runFlop();
         if (this.status === "live") await this.runTurn();
         if (this.status === 'live') await this.runRiver();
@@ -260,8 +264,10 @@ class Game {
         }
 
         winner.stack += this.pot
+        this.pot = 0
         console.log(winner.stack)
-
+        this.clearPrevState
+        this.human.clearAllButtons()
         this.createGameManageButtons()
 
      // this.clearPrevState();
