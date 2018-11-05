@@ -55,6 +55,14 @@ class Game {
     }
 
     async runHand(bbPlayer, sbPlayer) {
+        if (this.human.stack <= 0) {
+            window.alert("You already lost!  Click start over to try again!") 
+        }
+        if (this.computer.stack <= 0){
+             window.alert("Congrats on winning!  Click start over to play again!") 
+            } 
+
+
         console.log("starting new hand")
         this.render();
         this.sbPlayer = sbPlayer
@@ -67,6 +75,9 @@ class Game {
         if (this.status === 'live') await this.runRiver();
         console.log("HAND IS OVER");
          this.finishHand(sbPlayer, bbPlayer);
+
+         this.render()
+
     }
 
 
@@ -98,6 +109,7 @@ class Game {
     }
 
     async runTurn() {
+        
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
 
         this.dealTurn();
@@ -248,8 +260,11 @@ class Game {
         }
 
         winner.stack += this.pot
+        console.log(winner.stack)
+
         this.createGameManageButtons()
-        // this.clearPrevState();
+
+     // this.clearPrevState();
         // this.runHand(this.bbPlayer, this.sbPlayer)
         // setTimeout(function () { this.runHand(this.bbPlayer, this.sbPlayer).bind(this); }, 2000);
 
@@ -418,15 +433,25 @@ class Game {
         console.log('creating buttons')
         const buttonContainer = document.querySelector('.button-container')
         const deal = document.createElement("button")
+        const newGame = document.createElement("button")
         deal.innerText = 'deal'
+        newGame.innerText = 'Start Over'
 
         buttonContainer.appendChild(deal)
+        buttonContainer.appendChild(newGame)
 
         deal.addEventListener('click', ()=> {
             console.log('dealing now"')
             this.clearPrevState()
             this.runHand(this.bbPlayer, this.sbPlayer)
         })
+        newGame.addEventListener('click', () => {
+            console.log('dealing now"')
+            new Game({ctx: this.ctx}) 
+        })
+        if (this.human.stack === 0) window.alert("Looks like you lost.  Click start over to try again!")
+        if (this.computer.stack === 0) window.alert("Congrats on winnning!  Click start over to play again!")
+
     }
 
     render() {

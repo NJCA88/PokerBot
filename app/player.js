@@ -74,7 +74,7 @@ class Player {
         return "fold"
         break
       case 'raise':
-        if (betSize > this.stack + this.currentBet) betSize = this.stack
+        if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack
         if (betSize < (bet - this.currentBet) + bet ){
           console.log('test is happening')

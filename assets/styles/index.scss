@@ -7,3 +7,42 @@ html {
 *, *:before, *:after {
     box-sizing: inherit;
 }
+body {
+    // margin: 0px;
+
+}
+
+body { margin:0; padding:0; font-size:100%; line-height:1; }
+
+.button-container{
+    background-color: green;
+    display: flex;
+    width: 800px;
+    position: relative;
+    margin-top: 0px;
+    // flex-direction: column;
+    justify-content: flex-end;
+}
+#myCanvas{
+    margin: 0px;
+}
+.button-container button{
+    height: 50px;
+    width: 100px;
+    align-items: right;
+}
+.button-container input{
+    font-size: 18px;
+    width: 80px;
+}
+
+.background-div{
+    position: absolute;
+    background-color: green;
+    top: 0px;
+    left: 0px;
+    width: 800px;
+    height: 505px;
+    z-index: -20;
+}
+
