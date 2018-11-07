@@ -24,22 +24,23 @@ const HAND_STRENGTHS= {
     "2 pair":  6,
     "pair":  7,
     "high card":  8,
-
-}
+};
 
 import Player from "./player";
+import Computer from './computer';
+import Human from './human';
 import Card from "./card";
 import Deck from "./deck";
 
 class Game {
     constructor(options) {
-        this.human = new Player({
+        this.human = new Human({
             pos: [300, 450],
             stack: 1000,
             name: "Human",
             game: this
         });
-        this.computer = new Player({
+        this.computer = new Computer({
             pos: [300, 50],
             stack: 1000,
             name: "Computer",
@@ -48,20 +49,20 @@ class Game {
         this.deck = new Deck();
         this.pot = 0;
         this.ctx = options.ctx;
-        this.sbPlayer = ""
-        this.bbPlayer = ""
-        this.status = 'live'
+        this.sbPlayer = "";
+        this.bbPlayer = "";
+        this.status = 'live';
         this.runHand(this.computer, this.human);
     }
 
     async runHand(bbPlayer, sbPlayer) {
 
         if (this.human.stack <= 0) {
-            window.alert("You already lost!  Click start over to try again!") 
+            window.alert("You already lost!  Click start over to try again!")
         }
         if (this.computer.stack <= 0){
-             window.alert("Congrats on winning!  Click start over to play again!") 
-            } 
+             window.alert("Congrats on winning!  Click start over to play again!")
+            }
 
 
         console.log("starting new hand")
@@ -103,7 +104,7 @@ class Game {
 
         this.dealFlop();
         console.log("starting the flop now, we don't need to cards!");
-        
+
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "flop");
         if (isCheck === "check") {
             await this.sbPlayer.betOption(this.bbPlayer, "flop");
@@ -113,7 +114,7 @@ class Game {
     }
 
     async runTurn() {
-        
+
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
 
         this.dealTurn();
@@ -147,7 +148,7 @@ class Game {
         this.sbPlayer.currentBet = 0
         this.bbPlayer.hand = []
         this.sbPlayer.hand = []
- 
+
         this.pot = 0
         this.deck = new Deck();
 
@@ -254,7 +255,7 @@ class Game {
             if (HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
                 winner = sbPlayer
             } else if(HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
-                winner = sbPlayer 
+                winner = sbPlayer
             } else {
                 console.log("we need to figure this shit out...")
 
@@ -284,8 +285,8 @@ class Game {
         let bbPairsHash = {};
 
         for (var card_idx = 0; card_idx < 7; card_idx++) {
-            sbValues.push( (VALUES[this.sbPlayer.hand[card_idx].rank])  ) 
-            bbValues.push((VALUES[this.bbPlayer.hand[card_idx].rank])) 
+            sbValues.push( (VALUES[this.sbPlayer.hand[card_idx].rank])  )
+            bbValues.push((VALUES[this.bbPlayer.hand[card_idx].rank]))
             sbPairsHash[VALUES[this.sbPlayer.hand[card_idx].rank]] =
                 sbPairsHash[VALUES[this.sbPlayer.hand[card_idx].rank]] + 1 || 1;
             bbPairsHash[VALUES[this.bbPlayer.hand[card_idx].rank]] =
@@ -293,7 +294,7 @@ class Game {
         }
         sbValues.sort((a, b) => a - b).reverse()
         bbValues.sort((a, b) => a - b).reverse()
-        
+
         let sbHand = []
         let bbHand = []
 
@@ -399,13 +400,13 @@ class Game {
             if ( !values.includes(val)) values.push(val)
         }
         values = values.sort((a,b) => a - b).reverse()
-        
+
 
         if (Object.values(pairsHash).includes(4)) return "quads"
         if (Object.values(pairsHash).includes(3) && Object.values(pairsHash).includes(2)) return "full house"
         if (Object.values(suitsHash).sort((a, b)=> a - b)[Object.values(suitsHash).length] >= 5  ) return "flush"
         if (Object.values(suitsHash).sort().reverse()[0] >= 5) return "flush"
-      
+
         // somtimes makes straights out of 4 straights
         for (var start = 0; start < (values.length - 4); start ++){
             if (this.checkStraight(values.slice(start, start + 5)) === true ) return "straight"
@@ -420,8 +421,8 @@ class Game {
 
     checkStraight(valArr){
         for (let i = 0; i < valArr.length; i++){
-          if (valArr[0] - valArr[i] != i ) return false 
-        } 
+          if (valArr[0] - valArr[i] != i ) return false
+        }
         return true
     }
     checkTwoPair(pairsHashArr){
@@ -453,7 +454,7 @@ class Game {
         })
         newGame.addEventListener('click', () => {
             console.log('dealing now"')
-            new Game({ctx: this.ctx}) 
+            new Game({ctx: this.ctx})
         })
         if (this.human.stack === 0) window.alert("Looks like you lost.  Click start over to try again!")
         if (this.computer.stack === 0) window.alert("Congrats on winnning!  Click start over to play again!")
@@ -464,11 +465,11 @@ class Game {
         this.ctx.clearRect(0, 0, 800, 500);
         this.ctx.fillStyle = "green";
         this.ctx.fillRect(0, 0, 800, 500);
-        
+
         this.ctx.fillStyle = "black";
         this.ctx.font = 20 + 'pt Arial';
         this.ctx.fillText(`${this.pot}`, 450 , 250);
-        
+
         this.human.draw(this.ctx);
         this.computer.draw(this.ctx);
 
