@@ -58,23 +58,23 @@ class Game {
     async runHand(bbPlayer, sbPlayer) {
 
         if (this.human.stack <= 0) {
-            window.alert("You already lost!  Click start over to try again!")
+            window.alert("You already lost!  Click start over to try again!");
         }
         if (this.computer.stack <= 0){
-             window.alert("Congrats on winning!  Click start over to play again!")
+             window.alert("Congrats on winning!  Click start over to play again!");
             }
 
 
-        console.log("starting new hand")
+        console.log("starting new hand");
         this.render();
-        this.sbPlayer = sbPlayer
-        this.bbPlayer = bbPlayer
-        this.sbPlayer.status = 'live'
-        this.bbPlayer.status = 'live'
+        this.sbPlayer = sbPlayer;
+        this.bbPlayer = bbPlayer;
+        this.sbPlayer.status = 'live';
+        this.bbPlayer.status = 'live';
 
         this.setUp(bbPlayer, sbPlayer);
         await this.runPreflop();
-        this.checkStatus()
+        this.checkStatus();
         if (this.status === 'live') await this.runFlop();
         if (this.status === "live") await this.runTurn();
         if (this.status === 'live') await this.runRiver();
@@ -139,17 +139,17 @@ class Game {
         if (isCheck === "check") {
             await this.sbPlayer.betOption(this.bbPlayer, "river");
         }
-        if (this.checkStatus() === "dead") this.finishHand()
+        if (this.checkStatus() === "dead") this.finishHand();
 
     }
 
     clearPrevState(){
-        this.bbPlayer.currentBet = 0
-        this.sbPlayer.currentBet = 0
-        this.bbPlayer.hand = []
-        this.sbPlayer.hand = []
+        this.bbPlayer.currentBet = 0;
+        this.sbPlayer.currentBet = 0;
+        this.bbPlayer.hand = [];
+        this.sbPlayer.hand = [];
 
-        this.pot = 0
+        this.pot = 0;
         this.deck = new Deck();
 
     }
@@ -224,7 +224,7 @@ class Game {
     }
 
     takeBet(betSize) {
-        console.log("this.pot, this.betSize is", this.pot, betSize);
+        // console.log("this.pot, this.betSize is", this.pot, betSize);
         this.pot += betSize;
         console.log("pot is now", this.pot);
     }
@@ -482,6 +482,7 @@ class Game {
 
         this.ctx.fillStyle = "black";
         this.ctx.font = 20 + 'pt Arial';
+        // console.log("render function things current bet is: ", this.human.currentBet)
         this.ctx.fillText(`${this.human.currentBet}`, 250, 400);
 
         this.ctx.fillStyle = "black";

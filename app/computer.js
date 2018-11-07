@@ -23,7 +23,11 @@ class Computer extends Player{
     this.betSize = 0;
 
     //temp action selection for testing
-    this.wait(1250);  //7 seconds in milliseconds
+    console.log('MIDDLE TEST human bet is: ', this.game.human.currentBet)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('!!!!');
+    // this.game.render()
+    // this.wait(10050);  //7 seconds in milliseconds
     this.actionChoice = 'call';
 
 
@@ -38,6 +42,8 @@ class Computer extends Player{
         this.stack -= bet - this.currentBet;
         this.game.takeBet(bet - this.currentBet);
         this.currentBet = bet;
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         return "call";
         break;
       case "fold":
@@ -51,6 +57,7 @@ class Computer extends Player{
         if (betSize < (bet - this.currentBet) + bet ){
          betSize = bet - this.currentBet + bet;
         }
+        if ( betSize < 20) betSize = 20
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
@@ -69,6 +76,8 @@ class Computer extends Player{
 
       this.actionChoice = 'invalid';
       this.betSize = 0;
+
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // temp selection for testing
       this.actionChoice = 'check';

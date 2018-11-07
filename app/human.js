@@ -52,11 +52,13 @@ class Human extends Player{
           console.log('test is happening');
          betSize = bet - this.currentBet + bet;
         }
+        if ( betSize < 20) betSize = 20
+
         console.log(this.name, " raised");
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
-         opponent.facingBet(betSize, this);
+         await opponent.facingBet(betSize, this);
         return "raise";
         break;
     }
@@ -102,7 +104,7 @@ class Human extends Player{
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
-         opponent.facingBet(betSize, this);
+         await opponent.facingBet(betSize, this);
          return 'bet';
       case 'fold':
         console.log('folding');
