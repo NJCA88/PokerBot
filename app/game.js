@@ -263,10 +263,15 @@ class Game {
                 winner =  this.breakTie(sbPlayer.handName)
             }
         }
-
-        winner.stack += this.pot
-        this.pot = 0
-        console.log(winner.stack)
+        if (winner !== "tie"){
+            winner.stack += this.pot
+            this.pot = 0
+            console.log(winner.stack)
+        } else {
+            console.log('looks like its a tie...')
+            this.sbPlayer.stack += (Math.floor(this.pot / 2))
+            this.bbPlayer.stack += (Math.floor(this.pot / 2))
+        };
         this.clearPrevState
         this.human.clearAllButtons()
         this.createGameManageButtons()
