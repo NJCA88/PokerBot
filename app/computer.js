@@ -68,6 +68,8 @@ class Computer extends Player{
   }
 
     async betOption(opponent, street){
+      this.actionChoice = 'invalid';
+
       // debugger
       // console.log("promise = ", this.actionChoicePromise, 'and name is: ', this.name)
       console.log('current player with bet option is  ', this.name, ' opponent is', opponent.name, ' street: ', street);
@@ -75,19 +77,31 @@ class Computer extends Player{
 
 
       this.actionChoice = 'invalid';
-      this.betSize = 0;
+      this.betSize = Math.floor(this.game.pot/2) + this.currentBet;
 
       await new Promise(resolve => setTimeout(resolve, 500));
 
       // temp selection for testing
-      this.actionChoice = 'check';
+      let random_num = Math.random();
+      // random_num = .7;
+      console.log('random num is ', random_num);
+
+      if (random_num < .5){
+         this.actionChoice = 'check'
+       } else{
+         console.log('computer is trying to bet flop, betSize, this.currentBet: ', this.betSize, this.currentBet)
+         this.actionChoice = 'bet'
+
+       }
+
+       // this.game.takeBet(this.betSize - this.currentBet)
+       // this.currentBet = ( this.betSize + this.currentBet)
 
 
       const actionChoice = this.actionChoice;
-      let betSize = parseInt(this.betSize);
+      let betSize = this.betSize
+      this.betSize = 0
 
-      this.actionChoice = 'invalid';
-      this.betSize = 0;
       console.log(this.name, "action choice is: ", actionChoice, "on street: ", street);
 
       switch (actionChoice) {
@@ -103,8 +117,10 @@ class Computer extends Player{
           this.stack -= betSize - this.currentBet;
           this.game.takeBet(betSize - this.currentBet);
           this.currentBet = betSize;
-           opponent.facingBet(betSize, this);
-           return 'bet';
+          console.log("if you fall in a forest, and nobodies around");
+          await opponent.facingBet(betSize, this);
+          console.log("do you ever really crash, or even make a sound?")
+          return 'bet';
         case 'fold':
           console.log('folding');
           this.status = "dead";
