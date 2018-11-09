@@ -52,6 +52,7 @@ class Game {
         this.sbPlayer = "";
         this.bbPlayer = "";
         this.status = 'live';
+        this.message = ""
         this.runHand(this.computer, this.human);
     }
 
@@ -87,14 +88,14 @@ class Game {
 
 
     async runPreflop() {
+        this.sbPlayer.handName = ""
+        this.bbPlayer.handName = ""
 
         const isCall = await this.sbPlayer.facingBet(10, this.bbPlayer, "flop");
         if (isCall === "call") {
             await this.bbPlayer.betOption(this.sbPlayer, "flop");
         }
         // if (this.checkStatus() === "dead") this.finishHand()
-        this.sbPlayer.handName = ""
-        this.bbPlayer.handName = ""
 
 
     }
@@ -235,18 +236,19 @@ class Game {
             this.status = 'live'
             return 'live'
         }
-        this.status = 'dead'
-        return 'dead'
+        if (this.bbPlayer.status === 'live') this.status = this.bbPlayer
+        if (this.sbPlayer.status === 'live') this.status = this.sbPlayer
     }
 
     finishHand(sbPlayer, bbPlayer) {
         console.log("finishing hand now");
         let winner = ""
-        if (this.status === 'dead'){
-            if (this.sbPlayer.status = 'dead') winner = this.bbPlayer
-            else winner = this.bbPlayer
-            console.log("winner is: ", winner.name)
-        } else{
+
+        if (this.status === this.bbPlayer) { 
+            winner = this.bbPlayer
+        } else if (this.status === this.sbPlayer) {
+            winner = this.sbPlayer
+        } else {
 
             console.log('sb player cards are: ', sbPlayer.hand)
             console.log(this.getHandStrength(sbPlayer.hand));
@@ -272,6 +274,10 @@ class Game {
             this.sbPlayer.stack += (Math.floor(this.pot / 2))
             this.bbPlayer.stack += (Math.floor(this.pot / 2))
         };
+        if (winner === 'tie') {this.message = "Its a push"
+        }else{
+            this.message = `winner is ${winner.name}`
+        }
         this.clearPrevState
         this.human.clearAllButtons()
         this.createGameManageButtons()
@@ -454,6 +460,7 @@ class Game {
 
         deal.addEventListener('click', ()=> {
             console.log('dealing now"')
+            this.message = ""
             this.clearPrevState()
             this.runHand(this.bbPlayer, this.sbPlayer)
         })
@@ -493,6 +500,10 @@ class Game {
         this.ctx.fillStyle = "black";
         this.ctx.font = 20 + 'pt Arial';
         this.ctx.fillText(`${this.computer.currentBet}`, 250, 100);
+
+        this.ctx.fillStyle = "black";
+        this.ctx.font = 20 + 'pt Arial';
+        this.ctx.fillText(`${this.message}`, 500, 250);
 
 
         window.requestAnimationFrame(this.render.bind(this));

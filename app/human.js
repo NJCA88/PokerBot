@@ -4,6 +4,7 @@ import Player from "./player";
 class Human extends Player{
   constructor(options){
     super(options);
+    this.message = ""
   }
 
   async facingBet(bet, opponent) {
@@ -30,6 +31,7 @@ class Human extends Player{
     this.betSize = 0;
 
 
+    opponent.message = ""
     switch(actionChoice){
       case "call":
         console.log(this.name, ' called!!');

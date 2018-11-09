@@ -55,6 +55,9 @@ class Player {
     ctx.font = 20 + 'pt Arial';
     ctx.fillText(`${this.stack}`, this.pos[0] + 50, this.pos[1]+ 30);
 
+    ctx.fillStyle = "black";
+    ctx.font = 20 + 'pt Arial';
+    ctx.fillText(`${this.message}`, this.pos[0] + 250, this.pos[1] + 30);
 
 
     // requestAnimationFrame(this.draw)

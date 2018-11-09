@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   const ctx = canvasEl.getContext("2d");
   ctx.fillStyle = "green";
-  ctx.fillRect(0, 0, 800, 500);
+  ctx.fillRect(100, 100, 800, 500);
 
   new Game({ctx: ctx})
 

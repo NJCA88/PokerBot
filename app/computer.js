@@ -4,6 +4,7 @@ import Player from "./player";
 class Computer extends Player{
   constructor(options){
     super(options);
+    this.message = ""
   }
 
   wait(ms){
@@ -28,42 +29,64 @@ class Computer extends Player{
     console.log('!!!!');
     // this.game.render()
     // this.wait(10050);  //7 seconds in milliseconds
-    this.actionChoice = 'call';
+    // this.actionChoice = 'call';
+
+    let random_num = Math.random();
+    // random_num = .9;
+    console.log('random num is ', random_num);
+
+    if (random_num < .5) {
+      // console.log("shouldn't be checking here...")
+      this.actionChoice = 'call'
+    } else if (random_num >= .5 && random_num < .75){
+      // console.log("RAISING!")
+      this.actionChoice = 'raise'
+    } else {
+      console.log('Folding here I hope')
+      this.actionChoice = 'fold'
+    }
 
 
     const actionChoice = this.actionChoice;
-    let betSize = parseInt(this.betSize);
+    let betSize = Math.floor(this.game.pot /2) + this.currentBet ;
     this.actionChoice = 'invalid';
     this.betSize = 0;
 
-
+    
+    setTimeout(this.resetMessage, 1000)
     switch(actionChoice){
       case "call":
         this.stack -= bet - this.currentBet;
         this.game.takeBet(bet - this.currentBet);
         this.currentBet = bet;
-        await new Promise(resolve => setTimeout(resolve, 500));
+        this.message = "call"
 
+        // await new Promise(resolve => setTimeout(resolve, 500));
         return "call";
-        break;
       case "fold":
         this.status = 'dead';
+        console.log("definitely folding...")
+        this.message = "fold"
+
         return "fold";
-        break;
       case 'raise':
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack;
-        if (betSize < (bet - this.currentBet) + bet ){
-         betSize = bet - this.currentBet + bet;
+        if (betSize < (bet - this.currentBet) + bet) {
+          console.log('test is happening');
+          betSize = bet - this.currentBet + bet;
         }
-        if ( betSize < 20) betSize = 20
+        if (betSize < 20) betSize = 20
+
+        console.log(this.name, " raised");
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
-         opponent.facingBet(betSize, this);
+        this.message = "raise"
+
+        await opponent.facingBet(betSize, this);
         return "raise";
-        break;
     }
   }
 
@@ -107,25 +130,35 @@ class Computer extends Player{
       switch (actionChoice) {
         case "check":
           console.log(this.name, ' checked!!');
+          this.message = "check"
+
           return "check";
         case 'bet':
+          if (this.stack === 0) return "check"
           if (isNaN(betSize)) betSize = 10;
-          if ( betSize > this.stack) betSize = this.stack;
-          if ( betSize > opponent.stack) betSize = opponent.stack;
-          if ( betSize < 10) betSize = 10;
+          if (betSize > opponent.stack) betSize = opponent.stack;
+          if (betSize < 10) betSize = 10;
+          if (betSize > this.stack) betSize = this.stack;
           console.log(this.name, " bet", betSize);
           this.stack -= betSize - this.currentBet;
           this.game.takeBet(betSize - this.currentBet);
           this.currentBet = betSize;
-          console.log("if you fall in a forest, and nobodies around");
+          this.message = "bet"
+
           await opponent.facingBet(betSize, this);
-          console.log("do you ever really crash, or even make a sound?")
           return 'bet';
         case 'fold':
           console.log('folding');
+          this.message = "fold"
+
           this.status = "dead";
         return 'fold';
       }
+  }
+
+  resetMessage(){
+    this.message = ""
+    console.log("message is: ", this.message)
   }
 
 }
