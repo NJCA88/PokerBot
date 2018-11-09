@@ -35,27 +35,27 @@ class Deck{
         this.deal = this.deal.bind(this)
     }
 
-    // deal(player, player2){
-    //     // this.cards.shift
-    //     const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-    //     // console.log("player to receive card is currently:", player)
-    //     player.receiveCard(card)
-    //     if (player2) player2.receiveCard(card)
-    //     return card
-    // }
+    deal(player, player2){
+        // this.cards.shift
+        const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+        // console.log("player to receive card is currently:", player)
+        if (player2) player2.receiveCard(card)
+        player.receiveCard(card)
+        return card
+    }
 
     // adding a second deal method to handle testing.
     // when using this test method, just comment out 
     //first deal, and adjust the 9 cards as needed.
 
-    deal(player, player2) {
+    // deal(player, player2) {
 
-        const card = this.testCards.shift()
-        console.log("player to receive card ", card)
-        if (player2) player2.receiveCard(card)
-        player.receiveCard(card)
-        return card
-    }
+    //     const card = this.testCards.shift()
+    //     console.log("player to receive card ", card)
+    //     if (player2) player2.receiveCard(card)
+    //     player.receiveCard(card)
+    //     return card
+    // }
 }
 
 export default Deck;
