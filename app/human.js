@@ -124,16 +124,16 @@ class Human extends Player{
     const input = document.createElement('input');
     const bet = document.createElement('button');
     const check = document.createElement('button');
-    const fold = document.createElement('button');
+    // const fold = document.createElement('button');
 
     bet.innerText = "Bet";
     check.innerText = 'Check';
-    fold.innerText = 'Fold';
+    // fold.innerText = 'Fold';
 
     buttonContainer.appendChild(input);
     buttonContainer.appendChild(bet);
     buttonContainer.appendChild(check);
-    buttonContainer.appendChild(fold);
+    // buttonContainer.appendChild(fold);
 
     this.actionChoicePromise = new Promise( res => {
 
@@ -147,11 +147,11 @@ class Human extends Player{
 
       });
 
-      fold.addEventListener('click', () => {
-          res();
-          console.log("folding");
-          this.actionChoice = "fold";
-        });
+      // fold.addEventListener('click', () => {
+      //     res();
+      //     console.log("folding");
+      //     this.actionChoice = "fold";
+      //   });
 
       check.addEventListener('click', () => {
           res();

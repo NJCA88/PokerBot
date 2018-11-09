@@ -26,11 +26,15 @@ body { margin:0; padding:0; font-size:100%; line-height:1; }
 }
 #myCanvas{
     margin: 0px;
-    // padding-left: 300px;
+    // padding-left: 150px;
+    // padding-right: auto;
 }
 .button-container button{
+    // position: absolute;
     height: 50px;
     width: 100px;
+    // padding-left: 150px;
+    // margin-left: 150px;
     align-items: right;
 }
 .button-container input{
@@ -38,11 +42,19 @@ body { margin:0; padding:0; font-size:100%; line-height:1; }
     width: 80px;
 }
 
+.content{
+    position: absolute;
+    left: 200px;
+    top: 25px
+    
+}
+
+
 .background-div{
     position: absolute;
     background-color: green;
     top: 0px;
-    left: 0px;
+    left: 00px;
     width: 800px;
     height: 505px;
     z-index: -20;
