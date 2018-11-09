@@ -19,15 +19,23 @@ class Card {
         this.rank = options.rank
         this.pos = options.pos
         this.exposed = options.exposed ? options.exposed : true
+        // this.exposed = true
+        console.log("this.exposed = ", this.exposed)
     }
 
 
 
-     draw(ctx, pos) {  
+     draw(ctx) {  
         const card_loc = [CARD_CENTER[0] + CARD_SIZE[0] * RANKS.indexOf(this.rank),
             CARD_CENTER[1] + CARD_SIZE[1] * SUITS.indexOf(this.suit)]
 
-        ctx.drawImage(card_images, card_loc[0], card_loc[1], CARD_SIZE[0], CARD_SIZE[1], this.pos[0], this.pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        if (this.exposed === true){
+            ctx.drawImage(card_images, card_loc[0], card_loc[1], CARD_SIZE[0], CARD_SIZE[1], this.pos[0], this.pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        } else {
+    
+         ctx.drawImage(card_back, 0, 0, CARD_SIZE[0], CARD_SIZE[1], this.pos[0], this.pos[1], CARD_SIZE[0], CARD_SIZE[1])
+
+        }
      }
 
 }

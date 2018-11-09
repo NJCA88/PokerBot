@@ -218,6 +218,11 @@ class Human extends Player{
     }
   }
 
+  receiveCard(card) {
+    card.exposed = true
+    this.hand.push(card);
+  }
+
 }
 
 export default Human

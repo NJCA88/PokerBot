@@ -15,6 +15,7 @@ class Player {
   }
 
   receiveCard(card){
+    card.exposed = false
     this.hand.push(card);
   }
 

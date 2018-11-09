@@ -278,6 +278,8 @@ class Game {
         }else{
             this.message = `winner is ${winner.name}`
         }
+
+        this.computer.exposeCards()
         this.clearPrevState
         this.human.clearAllButtons()
         this.createGameManageButtons()

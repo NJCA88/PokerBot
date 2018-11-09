@@ -161,6 +161,17 @@ class Computer extends Player{
     console.log("message is: ", this.message)
   }
 
+  receiveCard(card) {
+    card.exposed = "false"
+    this.hand.push(card);
+  }
+
+  exposeCards(){
+    this.hand[0].exposed = true
+    this.hand[1].exposed = true
+  }
+
+
 }
 
 export default Computer

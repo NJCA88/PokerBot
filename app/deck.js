@@ -16,8 +16,8 @@ class Deck{
 
         this.testCards = [
             //first 2 to SB, next 2 to BB 
-            new Card({ suit: 'c', rank: '4' }),
-            new Card({ suit: 'h', rank: 'K' }),
+            new Card({ suit: 'c', rank: '4'}),
+            new Card({ suit: 'h', rank: 'K'}),
 
             new Card({ suit: 'c', rank: '4' }),
             new Card({ suit: 'h', rank: 'K' }),
@@ -52,8 +52,8 @@ class Deck{
 
         const card = this.testCards.shift()
         console.log("player to receive card ", card)
-        player.receiveCard(card)
         if (player2) player2.receiveCard(card)
+        player.receiveCard(card)
         return card
     }
 }
