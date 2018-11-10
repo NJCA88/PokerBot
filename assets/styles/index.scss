@@ -29,31 +29,55 @@ body { margin:0; padding:0; font-size:100%; line-height:1; }
     // padding-left: 150px;
     // padding-right: auto;
 }
+.button-container input{
+    border: none;
+    margin: 5px;
+    height: 50px
+}
 .button-container button{
     // position: absolute;
     height: 50px;
     width: 100px;
     // padding-left: 150px;
     // margin-left: 150px;
+    border-radius: 3px;
+    font-size: 18px;
     align-items: right;
+    border: none;
+    margin: 5px;
 }
 .button-container input{
+    border-radius: 3px;
     font-size: 18px;
     width: 80px;
+}
+
+body{
+    // background-color: papayawhip;
+}
+
+input:hover{
+    background-color: rgb(211, 216, 216);
+
+}
+button:hover {
+    background-color: rgb(211, 216, 216);
 }
 
 .content{
     position: absolute;
     left: 200px;
-    top: 25px
-    
+    top: 25px;    
+}
+.content h1{
+    text-align: center;
 }
 
 
 .background-div{
     position: absolute;
     background-color: green;
-    top: 0px;
+    top: 200px;
     left: 00px;
     width: 800px;
     height: 505px;
