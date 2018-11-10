@@ -170,9 +170,9 @@ class Human extends Player{
     const input = document.createElement('input');
     const raise = document.createElement('button');
     const fold = document.createElement('button');
-    fold.innerText = "fold";
-    raise.innerText = "raise";
-    call.innerText = "call";
+    fold.innerText = "Fold";
+    raise.innerText = "Raise";
+    call.innerText = "Call";
 
     buttonContainer.appendChild(input);
     buttonContainer.appendChild(raise);
