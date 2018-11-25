@@ -53,6 +53,12 @@ class Game {
         this.bbPlayer = "";
         this.status = 'live';
         this.message = ""
+        this.bettingHash = {
+            'pre': '',
+            'flop': '',
+            'turn': '',
+            'river': ''
+        } 
         this.runHand(this.computer, this.human);
     }
 
@@ -94,9 +100,9 @@ class Game {
         console.log("Comp cards are: ", this.computer.hand)
 
 
-        const isCall = await this.sbPlayer.facingBet(10, this.bbPlayer, "flop");
+        const isCall = await this.sbPlayer.facingBet(10, this.bbPlayer, "pre");
         if (isCall === "call") {
-            await this.bbPlayer.betOption(this.sbPlayer, "flop");
+            await this.bbPlayer.betOption(this.sbPlayer, "pre");
         }
         // if (this.checkStatus() === "dead") this.finishHand()
 

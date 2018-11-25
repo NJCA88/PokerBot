@@ -7,7 +7,7 @@ class Human extends Player{
     this.message = ""
   }
 
-  async facingBet(bet, opponent) {
+  async facingBet(bet, opponent, street) {
     console.log('current player facing a bet is is ', this.name, ' opponent is', opponent.name);
     this.clearAllButtons();
 
@@ -38,12 +38,15 @@ class Human extends Player{
         this.stack -= bet - this.currentBet;
         this.game.takeBet(bet - this.currentBet);
         this.currentBet = bet;
+        this.game.bettingHash[street] += 'c'
         return "call";
         break;
       case "fold":
         console.log('current player is ', this.name, ' opponent is', opponent.name);
         console.log(this.name, " folded");
         this.status = 'dead';
+        this.game.bettingHash[street] += 'f'
+
         return "fold";
         break;
       case 'raise':
@@ -60,7 +63,9 @@ class Human extends Player{
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
-         await opponent.facingBet(betSize, this);
+        this.game.bettingHash[street] += 'r'
+
+         await opponent.facingBet(betSize, this, street);
         return "raise";
         break;
     }
@@ -80,9 +85,7 @@ class Human extends Player{
       if (this.name === "Computer"){
         this.actionChoice = 'check';
       } else {
-        // console.log(this.actionChoicePromise)
         await this.actionChoicePromise;
-        // console.log(this.actionChoicePromise)
 
       }
 
@@ -96,6 +99,7 @@ class Human extends Player{
     switch (actionChoice) {
       case "check":
         console.log(this.name, ' checked!!');
+        this.game.bettingHash[street] += 'x'
         return "check";
       case 'bet':
         if (isNaN(betSize)) betSize = 10;
@@ -106,12 +110,15 @@ class Human extends Player{
         this.stack -= betSize - this.currentBet;
         this.game.takeBet(betSize - this.currentBet);
         this.currentBet = betSize;
-         await opponent.facingBet(betSize, this);
+        this.game.bettingHash[street] += 'b'
+
+         await opponent.facingBet(betSize, this, street);
          return 'bet';
       case 'fold':
         console.log('folding');
         this.status = "dead";
-      return 'fold';
+        this.game.bettingHash[street] += 'f'
+        return 'fold';
     }
   }
 
@@ -127,6 +134,7 @@ class Human extends Player{
     // const fold = document.createElement('button');
 
     bet.innerText = "Bet";
+    // input.value = "55";
     check.innerText = 'Check';
     // fold.innerText = 'Fold';
 
@@ -171,8 +179,10 @@ class Human extends Player{
     const raise = document.createElement('button');
     const fold = document.createElement('button');
     fold.innerText = "Fold";
-    raise.innerText = "Raise";
     call.innerText = "Call";
+    input.value = "";
+    raise.innerText = `Raise`;
+
 
     buttonContainer.appendChild(input);
     buttonContainer.appendChild(raise);
