@@ -166,6 +166,12 @@ class Game {
 
         this.pot = 0;
         this.deck = new Deck();
+        this.bettingHash = {
+            'pre': '',
+            'flop': '',
+            'turn': '',
+            'river': ''
+        } 
 
     }
 
