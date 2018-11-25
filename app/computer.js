@@ -38,7 +38,6 @@ const group3 = [
   '87o',
   '76o',
 ]
-
 const group4 = [
   'K4s', 'K3s', 'K2s',
   'Q4s', 'Q3s', 'Q2s',
@@ -63,7 +62,6 @@ const group4 = [
   '43o', '42o',
   '32o',
 ]
-
 const group5 = [
   'T4s', 'T3s', 'T2s',
   '95s', '94s', '93s', '92s',
@@ -95,58 +93,27 @@ class Computer extends Player{
     this.group = ""
   }
 
-  wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
+// 
 
   async facingBet(bet, opponent, street) {
-    // console.log('current player facing a bet is is ', this.name, ' opponent is', opponent.name);
     this.clearAllButtons();
-    // console.log("bettingHash for this street is: ", this.game.bettingHash[street])
-    // console.log("betting hash is: ", this.game.bettingHash)
-    // console.log("street is is: ", street)
+ 
 
     this.actionChoice = 'invalid';
     this.betSize = 0;
 
-    //temp action selection for testing
-    // console.log('MIDDLE TEST human bet is: ', this.game.human.currentBet)
+
     await new Promise(resolve => setTimeout(resolve, 1000));
-    // console.log('!!!!');
-    // this.game.render()
-    // this.wait(10050);  //7 seconds in milliseconds
-    // this.actionChoice = 'call';
 
-    // if (this.game.street === 'pre') {
-    // if (5 === 5) {
-    //   // console.log("yea, we're at the place!")
-    //   this.actionChoice = this.facingBetPre(bet)
-    // }else {
-
-      // let random_num = Math.random();
-
-      // if (random_num < .5) {
-      //   this.actionChoice = 'call'
-      // } else if (random_num >= .5 && random_num < .75){
-      //   this.actionChoice = 'raise'
-      // } else {
-      //   this.actionChoice = 'check'
-      // }
-      // console.log()
     if (street === "pre") this.actionChoice = this.facingBetPre();
     if (street === "flop") this.actionChoice = this.facingBetFlop();
     if (street === "turn") this.actionChoice = this.facingBetFlop();
-    if (street === "river") this.actionChoice = this.facingBetFlop();
+    if (street === "river") this.actionChoice = this.facingBetRiver();
       
 
 
     const actionChoice = this.actionChoice;
-    // if (this.betSize === 0 )
-    // let betSize = Math.floor(this.game.pot /2) + this.currentBet ;
+ 
     let betSize = this.betSize
     this.actionChoice = 'invalid';
     this.betSize = 0;
@@ -172,7 +139,7 @@ class Computer extends Player{
         return "fold";
       case 'raise':
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
-        betSize = bet * 3
+        betSize = tbet * 3
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack;
         if (betSize < (bet - this.currentBet) + bet) {
@@ -216,7 +183,7 @@ class Computer extends Player{
       if (street === 'pre') this.actionChoice = this.betOptionPre()
       if (street === 'flop') this.actionChoice = this.betOptionFlop()
       if (street === 'turn') this.actionChoice = this.betOptionFlop()
-      if (street === 'river') this.actionChoice = this.betOptionFlop()
+      if (street === 'river') this.actionChoice = this.betOptionRiver()
       
 
       const actionChoice = this.actionChoice;
@@ -305,7 +272,6 @@ class Computer extends Player{
       }
 
       
-      //if we make it this far into the function, its not facing a reraise, and is instead early.
 
 
       if ( handGroup === 1){
@@ -469,58 +435,92 @@ class Computer extends Player{
     }
   }
 
-betOptionFlop(){
+  betOptionFlop(){
 
 
-  if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre']) ) return 'check'
-  if ( ['cx', 'cbc', 'rrc'].includes(this.game.bettingHash['pre']) ){
-    //when should we C bet from OOP.
-    let random_num = Math.random();
-    if (this.game.getHandStrength(this.hand) === "high card") {
+    if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre']) ) return 'check'
+    if ( ['cx', 'cbc', 'rrc'].includes(this.game.bettingHash['pre']) ){
+      //when should we C bet from OOP.
+      let random_num = Math.random();
+      if (this.game.getHandStrength(this.hand) === "high card") {
 
-      if (random_num < .25) return 'check'
-      return 'bet'
+        if (random_num < .25) return 'check'
+        return 'bet'
 
-    } else if (this.game.getHandStrength(this.hand) === "pair") {
-      if (random_num < .75) return 'bet'
-      return 'check'
-    } else {
-      console.log('hand is strong Cat1')
-      if (random_num < .2) return 'check'
-      return 'bet'
+      } else if (this.game.getHandStrength(this.hand) === "pair") {
+        if (random_num < .75) return 'bet'
+        return 'check'
+      } else {
+        console.log('hand is strong Cat1')
+        if (random_num < .2) return 'check'
+        return 'bet'
+      }
     }
   }
-  
 
-}
+  betOptionRiver() {
+    if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre'])) return 'check'
+    if (['cx', 'cbc', 'rrc'].includes(this.game.bettingHash['pre'])) {
+      //when should we C bet from OOP.
+      let random_num = Math.random();
+      if (this.game.getHandStrength(this.hand) === "high card") {
+        if (random_num < .35) return 'bet'
+        return 'check'
+      } else if (this.game.getHandStrength(this.hand) === "pair") {
+        if (random_num < .35) return 'bet'
+        return 'check'
+      } else {
+        return 'bet'
+      }
+    }
+  }
+  facingBetRiver(bet) {
 
 
-getHandGroup(){
-  let cards = ""
-  if (this.hand[0].value < this.hand[1].value) {
-    this.cards = [this.hand[1], this.hand[0]]
-  } else {
-    this.cards = [this.hand[0], this.hand[1]]
+    if (this.game.bbPlayer === this) {
+      let random_num = Math.random();
+      // this is primarily for facing a cbet
+
+      if (this.game.getHandStrength(this.hand) === "high card") {
+        if (random_num < .35) return 'raise'
+        else return 'fold'
+      
+
+      } else if (this.game.getHandStrength(this.hand) === "pair") {
+        if (random_num < .75) return 'call'
+        return 'fold'
+      } else {
+        if (random_num < .5) return 'call'
+        return 'raise'
+      }
+    }
+
+
+
+  getHandGroup(){
+    let cards = ""
+    if (this.hand[0].value < this.hand[1].value) {
+      this.cards = [this.hand[1], this.hand[0]]
+    } else {
+      this.cards = [this.hand[0], this.hand[1]]
+    }
+
+    if (this.hand[0].value === this.hand[1].value) {
+      cards = `${this.hand[0].rank}${this.hand[1].rank}`
+    } else if (this.hand[0].suit !== this.hand[1].rank) {
+      cards = `${this.hand[0].rank}${this.hand[1].rank}o`
+    } else {
+      cards = `${this.hand[0].rank}${this.hand[1].rank}s`
+    }
+    // console.log('comps hand is: ', cards)
+
+    if (group1.includes(cards)) this.handGroup = 1
+    if (group2.includes(cards)) this.handGroup = 2
+    if (group3.includes(cards)) this.handGroup = 3
+    if (group4.includes(cards)) this.handGroup = 4
+    if (group5.includes(cards)) this.handGroup = 5
   }
 
-  if (this.hand[0].value === this.hand[1].value) {
-    cards = `${this.hand[0].rank}${this.hand[1].rank}`
-  } else if (this.hand[0].suit !== this.hand[1].rank) {
-    cards = `${this.hand[0].rank}${this.hand[1].rank}o`
-  } else {
-    cards = `${this.hand[0].rank}${this.hand[1].rank}s`
-  }
-  // console.log('comps hand is: ', cards)
-
-  if (group1.includes(cards)) this.handGroup = 1
-  if (group2.includes(cards)) this.handGroup = 2
-  if (group3.includes(cards)) this.handGroup = 3
-  if (group4.includes(cards)) this.handGroup = 4
-  if (group5.includes(cards)) this.handGroup = 5
-}
-
-getHandStrength(){
-}
 }
 
 export default Computer
