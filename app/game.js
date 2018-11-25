@@ -90,6 +90,9 @@ class Game {
     async runPreflop() {
         this.sbPlayer.handName = ""
         this.bbPlayer.handName = ""
+        console.log("preflop")
+        console.log("Comp cards are: ", this.computer.hand)
+
 
         const isCall = await this.sbPlayer.facingBet(10, this.bbPlayer, "flop");
         if (isCall === "call") {
@@ -104,7 +107,8 @@ class Game {
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
 
         this.dealFlop();
-        console.log("starting the flop now, we don't need to cards!");
+        console.log("starting the flop now");
+        console.log("Comp cards are: ", this.computer.hand);
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "flop");
         if (isCheck === "check") {
@@ -119,8 +123,10 @@ class Game {
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
 
         this.dealTurn();
-        console.log("starting the turn now, we don't need to cards !");
-        console.log("sb player: ", this.sbPlayer, "bbPlayer", this.bbPlayer);
+        console.log("starting the turn now");
+        console.log("Comp cards are: ", this.computer.hand);
+
+        // console.log("sb player: ", this.sbPlayer, "bbPlayer", this.bbPlayer);
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "turn");
         if (isCheck === "check") {
             await this.sbPlayer.betOption(this.bbPlayer, "turn");
@@ -133,8 +139,10 @@ class Game {
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
 
         this.dealRiver();
-        console.log("starting the right now, we don't need to cards!");
-        console.log("sb player: ", this.sbPlayer);
+        console.log("starting the river now");
+        // console.log("sb player: ", this.sbPlayer);
+        console.log("Comp cards are: ", this.computer.hand);
+
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "river");
         if (isCheck === "check") {
@@ -207,6 +215,9 @@ class Game {
         this.card5.draw(this.ctx);
         this.card6.draw(this.ctx);
         this.card7.draw(this.ctx);
+
+        console.log("Comp cards are: ", this.computer.cards)
+
     }
 
     dealTurn() {
@@ -464,7 +475,7 @@ class Game {
             console.log('dealing now"')
             this.message = ""
             this.clearPrevState()
-            this.runHand(this.bbPlayer, this.sbPlayer)
+            this.runHand(this.sbPlayer, this.bbPlayer)
         })
         newGame.addEventListener('click', () => {
             console.log('dealing now"')

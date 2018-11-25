@@ -190,7 +190,7 @@ class Human extends Player{
         res();
 
         const inputValue = document.querySelector('input');
-        console.log("raiseting", inputValue.value);
+        // console.log("raiseting", inputValue.value);
         this.actionChoice = "raise";
         this.betSize = inputValue.value;
       });

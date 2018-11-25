@@ -16,9 +16,7 @@ import Deck from './deck';
 import Game from './game';
 import Background from './background';
 
-// const testFunction = () => {
-//   console.log("test funciton is running")
-// }
+
 
 
 document.addEventListener("DOMContentLoaded", function(){
