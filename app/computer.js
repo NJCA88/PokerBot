@@ -139,7 +139,7 @@ class Computer extends Player{
         return "fold";
       case 'raise':
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
-        betSize = tbet * 3
+        betSize = bet * 3
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack;
         if (betSize < (bet - this.currentBet) + bet) {
@@ -494,6 +494,8 @@ class Computer extends Player{
         return 'raise'
       }
     }
+  }
+
 
 
 
