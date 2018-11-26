@@ -347,8 +347,9 @@ class Computer extends Player{
       if (handGroup === 3) {
         if (random_num > .5) {
           this.betSize = Math.floor(this.currentBet * 2.5)
-          console.log("group 3, so...: ", random_num)
-          return 'bet'
+          // console.log("group 3, so...: ", random_num)
+        this.betSize = Math.floor(this.currentBet * 2.5)
+          return 'raise'
         } else return 'call'
       }
       if (handGroup === 4) {
