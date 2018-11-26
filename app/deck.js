@@ -18,8 +18,8 @@ class Deck{
             new Card({ suit: 'h', rank: 'K'}),
             new Card({ suit: 'd', rank: '9'}),
 
-            new Card({ suit: 's', rank: '5' }),
-            new Card({ suit: 's', rank: '7' }),
+            new Card({ suit: 's', rank: 'K' }),
+            new Card({ suit: 's', rank: 'K' }),
             //flop
             new Card({ suit: 'c', rank: '7' }),
             new Card({ suit: 's', rank: '2' }),

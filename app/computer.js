@@ -141,12 +141,13 @@ class Computer extends Player{
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
         betSize = bet * 3
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
-        if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack;
         if (betSize < (bet - this.currentBet) + bet) {
           // console.log('test is happening');
           betSize = bet - this.currentBet + bet;
         }
         if (betSize < 20) betSize = 20
+        if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack + opponent.currentBet;
+
 
         // console.log(this.name, " raised");
         this.stack -= betSize - this.currentBet;
@@ -233,7 +234,7 @@ class Computer extends Player{
 
   receiveCard(card) {
     // card.exposed = "false"
-    card.exposed = true
+    card.exposed = false
     this.hand.push(card);
   }
 
@@ -259,19 +260,28 @@ class Computer extends Player{
       // IN THE BB
       // facing raises / 3bets +
       if (this.game.bettingHash['pre'] === 'rrr'){
-        if ([1].includes(handGroup)) return 'raise'
+        if ([1].includes(handGroup)){
+          this.betSize = bet * 4
+         return 'raise'
+        }
         if ([2].includes(handGroup)) return 'call'
         return 'fold'
       }
-      if (this.game.bettingHash['pre'] === 'cr'){
+      if (this.game.bettingHash['pre'] === 'r'){
         // this is when facing a raise after limping.
-        if ([1].includes(handGroup)) return 'raise'
+        if ([1].includes(handGroup)) {
+          this.betSize = bet * 4
+          return 'raise'
+        }
         if ([2, 3].includes(handGroup)) return 'call'
         return 'fold'
       }
       if (this.game.bettingHash['pre'].includes('rr')){
         // this is when facing a raise after limping.
-        if ([1].includes(handGroup)) return 'raise'
+        if ([1].includes(handGroup)) {
+          this.betSize = bet * 4
+          return 'raise'
+        }
         if ([2].includes(handGroup)) return 'call'
         return 'fold'
       }
