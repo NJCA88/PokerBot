@@ -356,7 +356,7 @@ class Computer extends Player{
           this.betSize = Math.floor(this.currentBet * 2.5)
           return 'bet'
         } else if (random_num > .3) {
-          return call
+          return 'call'
         } else {
           return 'call'
         }
