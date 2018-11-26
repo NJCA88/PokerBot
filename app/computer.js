@@ -232,7 +232,8 @@ class Computer extends Player{
   }
 
   receiveCard(card) {
-    card.exposed = "false"
+    // card.exposed = "false"
+    card.exposed = true
     this.hand.push(card);
   }
 
@@ -247,12 +248,16 @@ class Computer extends Player{
   facingBetPre(bet){
     this.getHandGroup()
     let handGroup = this.handGroup
+    console.log("group is: ", handGroup)
+
 
     let random_num = Math.random();
-
+    console.log("Am I in the right place?")
+    console.log("bettingHash is: ", this.game.bettingHash['pre'])
 
     if (this.game.bbPlayer === this){
       // IN THE BB
+      // facing raises / 3bets +
       if (this.game.bettingHash['pre'] === 'rrr'){
         if ([1].includes(handGroup)) return 'raise'
         if ([2].includes(handGroup)) return 'call'
@@ -271,6 +276,9 @@ class Computer extends Player{
         return 'fold'
       }
 
+      //above covers non first actions, below is first action
+      console.log("passed the stuff we should pass")
+      console.log("group is: ", handGroup)
       
 
 
@@ -287,6 +295,7 @@ class Computer extends Player{
       }
       
       if ( handGroup === 3){
+        console.log("yep, G3")
         if (random_num > .5) {
           this.betSize = bet * 4
           return 'raise'
@@ -312,6 +321,9 @@ class Computer extends Player{
       }
     }else{
       //IN the SB / BU first action of the hand
+      console.log("making opening decision");
+      console.log("group is: ", handGroup)
+
       if (handGroup === 1){
         this.betSize = Math.floor(this.currentBet * 2.5)
        return 'raise'
@@ -325,8 +337,9 @@ class Computer extends Player{
       if (handGroup === 3) {
         if (random_num > .5) {
           this.betSize = Math.floor(this.currentBet * 2.5)
+          console.log("group 3, so...: ", random_num)
           return 'bet'
-        } else return 'check'
+        } else return 'call'
       }
       if (handGroup === 4) {
         if (random_num > .7) {
@@ -335,7 +348,7 @@ class Computer extends Player{
         } else if (random_num > .3) {
           return call
         } else {
-          return 'check'
+          return 'call'
         }
       }
       if (handGroup === 5) {
@@ -379,7 +392,7 @@ class Computer extends Player{
 
         return 'bet'
       } else if (random_num > .3) {
-        return call
+        return 'check'
       } else {
         return 'check'
       }
@@ -490,7 +503,7 @@ class Computer extends Player{
         if (random_num < .75) return 'call'
         return 'fold'
       } else {
-        if (random_num < .5) return 'call'
+        if (random_num < .01) return 'call'
         return 'raise'
       }
     }
@@ -500,16 +513,17 @@ class Computer extends Player{
 
 
   getHandGroup(){
+    // debugger
     let cards = ""
     if (this.hand[0].value < this.hand[1].value) {
-      this.cards = [this.hand[1], this.hand[0]]
+      this.hand = [this.hand[1], this.hand[0]]
     } else {
-      this.cards = [this.hand[0], this.hand[1]]
+      this.hand = [this.hand[0], this.hand[1]]
     }
 
     if (this.hand[0].value === this.hand[1].value) {
       cards = `${this.hand[0].rank}${this.hand[1].rank}`
-    } else if (this.hand[0].suit !== this.hand[1].rank) {
+    } else if (this.hand[0].suit !== this.hand[1].suit) {
       cards = `${this.hand[0].rank}${this.hand[1].rank}o`
     } else {
       cards = `${this.hand[0].rank}${this.hand[1].rank}s`

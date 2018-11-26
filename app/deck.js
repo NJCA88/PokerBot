@@ -15,11 +15,11 @@ class Deck{
 
         this.testCards = [
             //first 2 to SB, next 2 to BB 
-            new Card({ suit: 'c', rank: 'A'}),
-            new Card({ suit: 'h', rank: 'A'}),
+            new Card({ suit: 'h', rank: 'K'}),
+            new Card({ suit: 'd', rank: '9'}),
 
-            new Card({ suit: 'c', rank: '7' }),
-            new Card({ suit: 'h', rank: '2' }),
+            new Card({ suit: 's', rank: '5' }),
+            new Card({ suit: 's', rank: '7' }),
             //flop
             new Card({ suit: 'c', rank: '7' }),
             new Card({ suit: 's', rank: '2' }),
