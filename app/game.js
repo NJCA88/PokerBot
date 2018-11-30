@@ -48,6 +48,7 @@ class Game {
         });
         this.deck = new Deck();
         this.pot = 0;
+        this.allIn = false
         this.ctx = options.ctx;
         this.sbPlayer = "";
         this.bbPlayer = "";
@@ -115,6 +116,9 @@ class Game {
         this.dealFlop();
         console.log("starting the flop now");
         console.log("Comp cards are: ", this.computer.hand);
+        
+        this.checkAllIn()
+        if (this.allIn) return
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "flop");
         if (isCheck === "check") {
@@ -131,6 +135,8 @@ class Game {
         this.dealTurn();
         console.log("starting the turn now");
         console.log("Comp cards are: ", this.computer.hand);
+        this.checkAllIn()
+        if (this.allIn) return
 
         // console.log("sb player: ", this.sbPlayer, "bbPlayer", this.bbPlayer);
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "turn");
@@ -148,6 +154,8 @@ class Game {
         console.log("starting the river now");
         // console.log("sb player: ", this.sbPlayer);
         console.log("Comp cards are: ", this.computer.hand);
+        this.checkAllIn()
+        if (this.allIn) return
 
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "river");
@@ -163,7 +171,7 @@ class Game {
         this.sbPlayer.currentBet = 0;
         this.bbPlayer.hand = [];
         this.sbPlayer.hand = [];
-
+        this.allIn = false
         this.pot = 0;
         this.deck = new Deck();
         this.bettingHash = {
@@ -251,6 +259,11 @@ class Game {
         // console.log("this.pot, this.betSize is", this.pot, betSize);
         this.pot += betSize;
         console.log("pot is now", this.pot);
+    }
+
+    checkAllIn(){
+        if (this.human.stack === 0 ) this.allIn = true
+        if (this.computer.stack === 0 ) this.allIn = true
     }
 
     checkStatus(){
