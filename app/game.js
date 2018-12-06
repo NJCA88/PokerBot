@@ -290,8 +290,9 @@ class Game {
             console.log(this.getHandStrength(sbPlayer.hand));
             sbPlayer.handName = this.getHandStrength(sbPlayer.hand)
             bbPlayer.handName = this.getHandStrength(bbPlayer.hand)
-            if (HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
-                winner = sbPlayer
+            // debugger
+            if (HAND_STRENGTHS[sbPlayer.handName] > HAND_STRENGTHS[bbPlayer.handName]){
+                winner = bbPlayer
             } else if(HAND_STRENGTHS[sbPlayer.handName] < HAND_STRENGTHS[bbPlayer.handName]){
                 winner = sbPlayer
             } else {
@@ -353,23 +354,34 @@ class Game {
              bbHand = bbValues.slice(0,5)
         }
         if (handName === "pair") {
-            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2) )
-            sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2) )
+            // debugger
+            console.log("yes, we both have 1 pair hands")
+            console.log('sbValues is: ', sbValues)
+            console.log('sbPairsHahs is: ', sbPairsHash)
+            sbHand.push(parseInt(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2)) )
+            sbHand.push(parseInt(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2)) )
+            // sbHand.push(Object.keys(sbPairsHash).find(key => sbPairsHash[key] === 2) )
             // sbHand.push(sbPairsHash[2])
 
             let i = 0
             while (sbHand.length < 5 ) {
-                if (sbValues[i] !== sbPairsHash[2]) sbHand.push(sbValues[i])
+                // debugger
+                // if (sbValues[i] !== sbPairsHash[2]) sbHand.push(sbValues[i])
+                if (sbPairsHash[sbValues[i]] !== 2) sbHand.push(sbValues[i])
                 i++
             }
 
-            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2))
-            bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2))
+            bbHand.push(parseInt(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2)))
+            bbHand.push(parseInt(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2)))
+            // bbHand.push(Object.keys(bbPairsHash).find(key => bbPairsHash[key] === 2))
             i = 0
             while (bbHand.length < 5) {
-                if (bbValues[i] !== bbPairsHash[2]) bbHand.push(bbValues[i])
+                // if (bbValues[i] !== bbPairsHash[2]) bbHand.push(bbValues[i])
+                if (bbPairsHash[bbValues[i]] !== 2) bbHand.push(bbValues[i]);
+
                 i++
             }
+            console.log('sbHand, bbHand', sbHand, bbHand)
 
         }
         if ( handName ==="2 pair"){
@@ -422,7 +434,9 @@ class Game {
 
         // console.log("values are: (sb then bb): ", sbValues, bbValues)
         // console.log("after logic, sbHand is: ", sbHand, "bbHand is: ", bbHand)
+        // debugger
         for (let i = 0; i < 5; i++){
+            // debugger
             if (sbHand[i] > bbHand[i]) return this.sbPlayer
             else if (sbHand[i] < bbHand[i]) return this.bbPlayer
         }

@@ -15,19 +15,19 @@ class Deck{
 
         this.testCards = [
             //first 2 to SB, next 2 to BB 
-            new Card({ suit: 'h', rank: 'K'}),
-            new Card({ suit: 'd', rank: '9'}),
+            new Card({ suit: 'h', rank: 'A'}),
+            new Card({ suit: 'c', rank: 'J'}),
 
             new Card({ suit: 's', rank: 'K' }),
-            new Card({ suit: 's', rank: 'K' }),
+            new Card({ suit: 'c', rank: 'K' }),
             //flop
-            new Card({ suit: 'c', rank: '7' }),
-            new Card({ suit: 's', rank: '2' }),
-            new Card({ suit: 'c', rank: '3' }),
+            new Card({ suit: 'c', rank: '2' }),
+            new Card({ suit: 's', rank: '3' }),
+            new Card({ suit: 'c', rank: '4' }),
             //turn
-            new Card({ suit: 'd', rank: '4' }),
+            new Card({ suit: 'd', rank: '5' }),
             // river 
-            new Card({ suit: 'd', rank: '6' }),
+            new Card({ suit: 'd', rank: '5' }),
       
         ]
         this.deal = this.deal.bind(this)
