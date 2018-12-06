@@ -91,6 +91,8 @@ class Computer extends Player{
     super(options);
     this.message = ""
     this.group = ""
+
+    this.resetMessage = this.resetMessage.bind(this)
   }
 
 // 
@@ -119,7 +121,7 @@ class Computer extends Player{
     this.betSize = 0;
 
     
-    setTimeout(this.resetMessage, 1000)
+    setTimeout(this.resetMessage, 2000)
     switch(actionChoice){
       case "call":
         this.stack -= bet - this.currentBet;
@@ -163,6 +165,8 @@ class Computer extends Player{
   }
 
   async betOption(opponent, street){
+    setTimeout(this.resetMessage, 2000)
+
       this.actionChoice = 'invalid';
       console.log("bettingHash for this street is: ", this.game.bettingHash[street])
       console.log("we're in bet option on street: ", street)
@@ -229,7 +233,10 @@ class Computer extends Player{
 
   resetMessage(){
     this.message = ""
-    // console.log("message is: ", this.message)
+    console.log("message is, game is: ", this.message, this.game)
+    console.log("post render?")
+    this.game.render()
+
   }
 
   receiveCard(card) {
