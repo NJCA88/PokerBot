@@ -16,12 +16,12 @@ class Deck{
         this.testCards = [
             //first 2 to SB, next 2 to BB 
             new Card({ suit: 'h', rank: 'A'}),
-            new Card({ suit: 'c', rank: 'J'}),
+            new Card({ suit: 'c', rank: '2'}),
 
             new Card({ suit: 's', rank: 'K' }),
-            new Card({ suit: 'c', rank: 'K' }),
+            new Card({ suit: 'c', rank: '7' }),
             //flop
-            new Card({ suit: 'c', rank: '2' }),
+            new Card({ suit: 'c', rank: '6' }),
             new Card({ suit: 's', rank: '3' }),
             new Card({ suit: 'c', rank: '4' }),
             //turn
@@ -33,25 +33,25 @@ class Deck{
         this.deal = this.deal.bind(this)
     }
 
-    deal(player, player2){
-        // this.cards.shift
-        const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-        if (player2) player2.receiveCard(card)
-        player.receiveCard(card)
-        return card
-    }
+    // deal(player, player2){
+    //     // this.cards.shift
+    //     const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+    //     if (player2) player2.receiveCard(card)
+    //     player.receiveCard(card)
+    //     return card
+    // }
 
     // adding a second deal method to handle testing.
     // when using this test method, just comment out 
     //first deal, and adjust the 9 cards as needed.
 
-    // deal(player, player2) {
+    deal(player, player2) {
 
-    //     const card = this.testCards.shift()
-    //     if (player2) player2.receiveCard(card)
-    //     player.receiveCard(card)
-    //     return card
-    // }
+        const card = this.testCards.shift()
+        if (player2) player2.receiveCard(card)
+        player.receiveCard(card)
+        return card
+    }
 }
 
 export default Deck;

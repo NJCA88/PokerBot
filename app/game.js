@@ -432,6 +432,12 @@ class Game {
             }
         }
 
+        if (handName = "straight"){
+            sbValues.sort((a, b) => a - b).reverse()
+            bbValues.sort((a, b) => a - b).reverse();
+
+        }
+
         // console.log("values are: (sb then bb): ", sbValues, bbValues)
         // console.log("after logic, sbHand is: ", sbHand, "bbHand is: ", bbHand)
         // debugger
