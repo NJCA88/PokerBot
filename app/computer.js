@@ -196,6 +196,7 @@ class Computer extends Player{
       this.betSize = 0
 
       // console.log("action choice is: ", actionChoice);
+      //console.log(acttionChoice)
 
       switch (actionChoice) {
         case "check":
