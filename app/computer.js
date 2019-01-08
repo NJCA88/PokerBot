@@ -265,8 +265,7 @@ class Computer extends Player{
     console.log("bettingHash is: ", this.game.bettingHash['pre'])
 
     if (this.game.bbPlayer === this){
-      // IN THE BB
-      // facing raises / 3bets +
+
       if (this.game.bettingHash['pre'] === 'rrr'){
         if ([1].includes(handGroup)){
           this.betSize = bet * 4
@@ -276,7 +275,6 @@ class Computer extends Player{
         return 'fold'
       }
       if (this.game.bettingHash['pre'] === 'r'){
-        // this is when facing a raise after limping.
         if ([1].includes(handGroup)) {
           this.betSize = bet * 4
           return 'raise'
@@ -301,7 +299,6 @@ class Computer extends Player{
 
 
       if ( handGroup === 1){
-        // console.log("hello there, we're in the bb")
         this.betSize = bet * 4
         return 'raise'
         }
