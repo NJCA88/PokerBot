@@ -120,7 +120,10 @@ class Game {
         console.log("Comp cards are: ", this.computer.hand);
         
         this.checkAllIn()
-        if (this.allIn) return
+        if (this.allIn) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return
+        }
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "flop");
         if (isCheck === "check") {
@@ -138,8 +141,10 @@ class Game {
         console.log("starting the turn now");
         console.log("Comp cards are: ", this.computer.hand);
         this.checkAllIn()
-        if (this.allIn) return
-
+        if (this.allIn) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return
+        }
         // console.log("sb player: ", this.sbPlayer, "bbPlayer", this.bbPlayer);
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "turn");
         if (isCheck === "check") {
@@ -157,8 +162,10 @@ class Game {
         // console.log("sb player: ", this.sbPlayer);
         console.log("Comp cards are: ", this.computer.hand);
         this.checkAllIn()
-        if (this.allIn) return
-
+        if (this.allIn) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return
+        }
 
         const isCheck = await this.bbPlayer.betOption(this.sbPlayer, "river");
         if (isCheck === "check") {
