@@ -63,6 +63,9 @@ class Game {
             'river': ''
         } 
         this.runHand(this.computer, this.human);
+
+        
+
     }
 
     async runHand(bbPlayer, sbPlayer) {
@@ -571,6 +574,27 @@ class Game {
         this.ctx.fillStyle = "black";
         this.ctx.font = 20 + 'pt Arial';
         this.ctx.fillText(`${this.message}`, 500, 250);
+
+
+        let BUpos
+        if (this.bbPlayer === this.human) {
+            BUpos = [225, 150]
+        } else {
+            BUpos = [225, 450]
+        }
+        // let BUpos = [250, 250]
+
+        this.ctx.beginPath();
+        this.ctx.arc(BUpos[0], BUpos[1], 15, 0, 2 * Math.PI);
+        this.ctx.lineWidth = 0
+        this.ctx.fillStyle = "white"
+        this.ctx.fill()
+        this.ctx.stroke();
+
+        this.ctx.fillStyle = "black";
+        this.ctx.font = 15 + 'pt Arial';
+        this.ctx.fillText("D", BUpos[0]-6, BUpos[1]+ 6);
+
 
 
         window.requestAnimationFrame(this.render.bind(this));

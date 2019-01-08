@@ -268,6 +268,7 @@ class Computer extends Player{
     this.getHandGroup()
     let handGroup = this.handGroup
     console.log("group is: ", handGroup)
+    // debugger
 
 
     let random_num = Math.random();
@@ -305,6 +306,7 @@ class Computer extends Player{
       //above covers non first actions, below is first action
       console.log("passed the stuff we should pass")
       console.log("group is: ", handGroup)
+      debugger
       
 
 
@@ -327,12 +329,13 @@ class Computer extends Player{
         }else return 'call'
       }
       if (handGroup === 4) {
+        debugger
         if (random_num > .7) {
           this.betSize = bet * 4;
         
           return 'raise'
         } else if (random_num > .3){
-            return call
+            return 'call'
         } else{
             return 'fold'
         }
@@ -370,7 +373,7 @@ class Computer extends Player{
       if (handGroup === 4) {
         if (random_num > .7) {
           this.betSize = Math.floor(this.currentBet * 2.5)
-          return 'bet'
+          return 'raise'
         } else if (random_num > .3) {
           return 'call'
         } else {
