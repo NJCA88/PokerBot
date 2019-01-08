@@ -44,8 +44,10 @@ class Game {
             pos: [300, 50],
             stack: 1000,
             name: "Computer",
-            game: this
+            game: this,
+            opponent: this.human
         });
+        this.human.opponent = this.computer;
         this.deck = new Deck();
         this.pot = 0;
         this.allIn = false
@@ -526,8 +528,8 @@ class Game {
             console.log('dealing now"')
             new Game({ctx: this.ctx})
         })
-        if (this.human.stack === 0) window.alert("Looks like you lost.  Click start over to try again!")
-        if (this.computer.stack === 0) window.alert("Congrats on winnning!  Click start over to play again!")
+        // if (this.human.stack === 0) window.alert("Looks like you lost.  Click start over to try again!")
+        // if (this.computer.stack === 0) window.alert("Congrats on winnning!  Click start over to play again!")
 
     }
 

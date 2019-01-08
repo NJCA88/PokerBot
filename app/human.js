@@ -16,6 +16,17 @@ class Human extends Player{
     this.actionChoice = 'invalid';
     this.betSize = 0;
 
+    // debugger
+    let allIn = false
+    let effective
+    if (this.stack + this.currentBet)  {
+      effective = this.opponent.stack + this.opponent.currentBet
+    } else {
+      effective = this.stack + this.currentBet
+    }
+
+    if (bet >= effective) allIn = true
+
 
     if (this.name === "Computer") {
       this.actionChoice = 'call';
@@ -50,6 +61,7 @@ class Human extends Player{
         return "fold";
         break;
       case 'raise':
+        if (allIn) return "call"; 
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
         if (betSize > opponent.stack + opponent.currentBet) betSize = opponent.stack;

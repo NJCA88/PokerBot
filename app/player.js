@@ -4,12 +4,14 @@ class Player {
   constructor(options) {
     this.pos = options.pos;
     this.name = options.name;
+    this.opponent = options.opponent;
     this.stack = options.stack;
     this.currentBet= 0;
     this.hand = [];
     this.handName ="";
     this.game = options.game;
     this.status = 'live';
+
     // this.receieveCard = this.receiveCard.bind(this)
     this.facingBet = this.facingBet.bind(this);
   }
@@ -20,6 +22,18 @@ class Player {
   }
 
   makeBet(betAmt){
+    //correct bet size if the bet is greater than all in.
+    let effective
+    if (this.stack + this.currentBet > this.opponent.stack + this.opponent.currentBet) {
+      effective = this.opponent.stack + this.opponent.currentBet
+    } else {
+      effective = this.stack + this.currentBet
+    }
+
+    if ( betAmt > effective ) betAmt = effective
+    console.log("effective: ", effective)
+
+
     this.stack -= ( betAmt - this.currentBet);
     this.currentBet = betAmt;
   }

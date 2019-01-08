@@ -100,7 +100,15 @@ class Computer extends Player{
   async facingBet(bet, opponent, street) {
     this.clearAllButtons();
  
+    let allIn = false
+    let effective
+    if (this.stack + this.currentBet) {
+      effective = this.opponent.stack + this.opponent.currentBet
+    } else {
+      effective = this.stack + this.currentBet
+    }
 
+    if (bet >= effective) allIn = true
     this.actionChoice = 'invalid';
     this.betSize = 0;
 
@@ -140,6 +148,8 @@ class Computer extends Player{
 
         return "fold";
       case 'raise':
+        if (allIn) return "call"; 
+
         if (isNaN(betSize)) betSize = bet - this.currentBet + bet;
         betSize = bet * 3
         if (betSize > this.stack + this.currentBet) betSize = this.stack + this.currentBet;
