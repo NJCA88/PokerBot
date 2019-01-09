@@ -595,6 +595,15 @@ class Game {
         this.ctx.font = 15 + 'pt Arial';
         this.ctx.fillText("D", BUpos[0]-6, BUpos[1]+ 6);
 
+        // this.ctx.globalAlpha = .1
+        // this.ctx.rect(250, 40, 200, 100);
+        // this.ctx.fillStyle = 'red';
+        // this.ctx.shadowColor = '#999';
+        // this.ctx.shadowBlur = 20;
+        // this.ctx.shadowOffsetX = 15;
+        // this.ctx.shadowOffsetY = 15;
+        // this.ctx.fill();
+
 
 
         window.requestAnimationFrame(this.render.bind(this));
