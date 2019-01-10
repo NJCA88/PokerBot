@@ -295,6 +295,7 @@ class Computer extends Player{
       }
       if (this.game.bettingHash['pre'].includes('rr')){
         // this is when facing a raise after limping.
+        console.log("line 298 of computer.js")
         if ([1].includes(handGroup)) {
           this.betSize = bet * 4
           return 'raise'
