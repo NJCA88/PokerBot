@@ -21,13 +21,11 @@ body { margin:0; padding:0; font-size:100%; line-height:1; }
     height: 50px;
     position: relative;
     margin-top: 0px;
-    // flex-direction: column;
     justify-content: flex-end;
 }
 #myCanvas{
     margin: 0px;
-    // padding-left: 150px;
-    // padding-right: auto;
+
 }
 .button-container input{
     border: none;
@@ -35,11 +33,9 @@ body { margin:0; padding:0; font-size:100%; line-height:1; }
     height: 50px
 }
 .button-container button{
-    // position: absolute;
     height: 50px;
     width: 100px;
-    // padding-left: 150px;
-    // margin-left: 150px;
+
     border-radius: 3px;
     font-size: 18px;
     align-items: right;
