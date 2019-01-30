@@ -197,7 +197,7 @@ class Computer extends Player{
 
       if (street === 'pre') this.actionChoice = this.betOptionPre()
       if (street === 'flop') this.actionChoice = this.betOptionFlop()
-      if (street === 'turn') this.actionChoice = this.betOptionFlop()
+      if (street === 'turn') this.actionChoice = this.betOptionTurn()
       if (street === 'river') this.actionChoice = this.betOptionRiver()
       
 
@@ -479,10 +479,15 @@ class Computer extends Player{
   }
 
   betOptionFlop(){
+    // should always C bet, and never donk lead.  No logic yet for limped pots.
+    // debugger
 
-
-    if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre']) ) return 'check'
-    if ( ['cx', 'cbc', 'rrc'].includes(this.game.bettingHash['pre']) ){
+    if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre']) ){
+        // this is when BU raised and comp called pre, we always check.
+       return 'check'
+    }
+    // if ( ['cx', 'cbc', 'rrc'].includes(this.game.bettingHash['pre']) ){
+    if ( ['cx'].includes(this.game.bettingHash['pre']) ){
       //when should we C bet from OOP.
       let random_num = Math.random();
       if (this.game.getHandStrength(this.hand) === "high card") {
@@ -499,7 +504,59 @@ class Computer extends Player{
         return 'bet'
       }
     }
+    if (['cbc', 'rrc', 'rc'].includes(this.game.bettingHash['pre'])){
+      console.log('cbet')
+      return 'bet'
+    }
   }
+
+  betOptionTurn(){
+    //no leading turn if IP bets flop
+    // debugger
+    let random_num = Math.random();
+    let strength = this.game.getHandStrength(this.hand)
+    if (this.game.bbPlayer === this){
+
+      // debugger
+      if ( ['xbc', 'brc'].includes(this.game.bettingHash['pre'])) {
+        //never donk lead turn
+        return 'check'
+      }
+
+       else if (['xx'].includes(this.game.bettingHash['flop'])){
+        //if IP checks flop we play turn aggro.  We bet 66% of our air, and 90% of 1 pair+
+        if (strength === 'high card' && random_num < .35){
+          return 'check'
+        } else if (strength === 'high card'){
+          return 'bet'
+        } else if (random_num < .1) {
+          return "check"
+        } else {
+          return 'bet'
+        }
+       }
+       else if (['bc', 'brrc'].includes(this.game.bettingHash['flop'])){
+          if ( random_num < .3 && strength === 'high card'){
+            return 'check' 
+          } else {
+            return 'bet'
+          }
+       }
+      }else{
+        //when we're IP
+        if (['xbc', 'xbrrc'].includes(this.game.bettingHash['flop'])){
+          if (random_num < .3 && strength == "high card"){
+            return "check"
+          }
+        } else {
+          return "bet"
+        }
+          
+      }
+    }
+  
+
+  
 
   betOptionRiver() {
     if (this.game.bbPlayer === this && ['rc', 'rrrc'].includes(this.game.bettingHash['pre'])) return 'check'
