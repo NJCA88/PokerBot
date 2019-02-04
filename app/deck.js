@@ -15,43 +15,43 @@ class Deck{
 
         this.testCards = [
             //first 2 to SB, next 2 to BB 
-            new Card({ suit: 'h', rank: '5'}),
-            new Card({ suit: 'c', rank: '5'}),
+            new Card({ suit: 'h', rank: 'K'}),
+            new Card({ suit: 'c', rank: 'T'}),
 
-            new Card({ suit: 's', rank: '7' }),
-            new Card({ suit: 's', rank: '8' }),
+            new Card({ suit: 's', rank: '5' }),
+            new Card({ suit: 's', rank: '5' }),
             //flop
-            new Card({ suit: 'c', rank: '3' }),
-            new Card({ suit: 's', rank: 'Q' }),
-            new Card({ suit: 'c', rank: '9' }),
+            new Card({ suit: 'c', rank: '8' }),
+            new Card({ suit: 's', rank: '6' }),
+            new Card({ suit: 'c', rank: 'J' }),
             //turn
-            new Card({ suit: 'd', rank: 'T' }),
+            new Card({ suit: 'd', rank: '9' }),
             // river 
-            new Card({ suit: 'd', rank: 'Q' }),
+            new Card({ suit: 'd', rank: '2' }),
       
         ]
         this.deal = this.deal.bind(this)
     }
 
-    deal(player, player2){
-        // this.cards.shift
-        const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
-        if (player2) player2.receiveCard(card)
-        player.receiveCard(card)
-        return card
-    }
+    // deal(player, player2){
+    //     // this.cards.shift
+    //     const card =  this.cards.splice([Math.floor(Math.random() * this.cards.length)], 1).shift()
+    //     if (player2) player2.receiveCard(card)
+    //     player.receiveCard(card)
+    //     return card
+    // }
 
     // adding a second deal method to handle testing.
     // when using this test method, just comment out 
     //first deal, and adjust the 9 cards as needed.
 
-    // deal(player, player2) {
+    deal(player, player2) {
 
-    //     const card = this.testCards.shift()
-    //     if (player2) player2.receiveCard(card)
-    //     player.receiveCard(card)
-    //     return card
-    // }
+        const card = this.testCards.shift()
+        if (player2) player2.receiveCard(card)
+        player.receiveCard(card)
+        return card
+    }
 }
 
 export default Deck;

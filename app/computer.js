@@ -518,12 +518,12 @@ class Computer extends Player{
     if (this.game.bbPlayer === this){
 
       // debugger
-      if ( ['xbc', 'brc'].includes(this.game.bettingHash['pre'])) {
+      if ( ['rc', 'rrrc'].includes(this.game.bettingHash['pre'])) {
         //never donk lead turn
         return 'check'
       }
 
-       else if (['xx'].includes(this.game.bettingHash['flop'])){
+       else if (['cx'].includes(this.game.bettingHash['flop'])){
         //if IP checks flop we play turn aggro.  We bet 66% of our air, and 90% of 1 pair+
         if (strength === 'high card' && random_num < .35){
           return 'check'
@@ -535,13 +535,14 @@ class Computer extends Player{
           return 'bet'
         }
        }
-       else if (['bc', 'brrc'].includes(this.game.bettingHash['flop'])){
+       else if (['crc', 'crrrc'].includes(this.game.bettingHash['flop'])){
+         // when we are C betting
           if ( random_num < .3 && strength === 'high card'){
             return 'check' 
           } else {
             return 'bet'
           }
-       }
+       } else return "check"
       }else{
         //when we're IP
         if (['xbc', 'xbrrc'].includes(this.game.bettingHash['flop'])){
@@ -552,8 +553,8 @@ class Computer extends Player{
           return "bet"
         }
           
-      }
     }
+    } 
   
 
   

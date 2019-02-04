@@ -139,7 +139,7 @@ class Game {
     async runTurn() {
 
         this.resetCurrentBets(this.bbPlayer, this.sbPlayer);
-
+        // debugger
         this.dealTurn();
         console.log("starting the turn now");
         console.log("Comp cards are: ", this.computer.hand);
